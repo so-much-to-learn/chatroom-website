@@ -1,0 +1,11 @@
+@value colors: "../../styles/color.module.scss";
+
+@value borderColor, red, nameColor, nameHoverColor, tipsHoverColor from colors;
+
+.settingBar {
+  background-color: red;
+
+  .manageBtn {
+    background-color: tipsHoverColor;
+  }
+}

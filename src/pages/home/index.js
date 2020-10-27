@@ -1,53 +1,23 @@
-import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
+import React, {Component} from 'react'
+import {inject, observer} from 'mobx-react'
+import SettingBar from '../../components/settingBar'
 
 @inject('store')
 @observer
 export default class Home extends Component {
-    handleTodo(type) {
-        const { store } = this.props
-        switch (type) {
-            case 'add':
-                store.addTodo('一个新任务')
-                console.log(store)
-                break
-            case 'remove':
-                store.removeTodo()
-                break
-            case 'reset':
-                console.log('reset')
-                store.resetTodo()
-                break
-            default:
-                console.log('noop')
-        }
-    }
-
     componentDidMount() {
-        console.log('prop', this.props.store)
-    }
-
-    handleChangeTime = () => {
-        this.props.store.changeTime()
-        console.log(this.props.store.time)
     }
 
     render() {
-        const { store } = this.props
-        console.log({ store })
+        const {store} = this.props
         return (
-          <div className='home'>
-              { store.time }
-              <div className='btns'>
-                  <button onClick={ this.handleTodo.bind(this, 'add') }>添加一条任务</button>
-                  <button onClick={ this.handleTodo.bind(this, 'remove') }>删除一条任务</button>
-                  <button onClick={ this.handleTodo.bind(this, 'reset') }>重制任务</button>
-              </div>
-              { store.todos.map((item, idx) =>
-                <div key={ idx }>{ item }</div>)
-              }
-              <button onClick={ () => this.handleChangeTime() }>changeTime</button>
-          </div>
+            <div className='home'>
+                {store.chatroomNameList
+                    .map(chatroomObj =>
+                        <div key={chatroomObj.id}>{chatroomObj.recentMessage}</div>) || <div>empty</div>
+                }
+                <SettingBar></SettingBar>
+            </div>
         )
     }
 }
