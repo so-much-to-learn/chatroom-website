@@ -1,11 +1,8 @@
 @value colors: "../../styles/color.module.scss";
 
-@value borderColor, red, nameColor, nameHoverColor, tipsHoverColor from colors;
+@value sidebarBgc, sidebarColor from colors;
 
 .settingBar {
-  background-color: red;
-
-  .manageBtn {
-    background-color: tipsHoverColor;
-  }
+  background-color: sidebarBgc;
+  color: sidebarColor;
 }

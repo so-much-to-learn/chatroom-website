@@ -119,6 +119,7 @@ module.exports = function (webpackEnv) {
           // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
           plugins: () => [
+            require('postcss-nested'),
             require('postcss-flexbugs-fixes'),
             require('postcss-preset-env')({
               autoprefixer: {
@@ -396,8 +397,22 @@ module.exports = function (webpackEnv) {
                 customize: require.resolve(
                   'babel-preset-react-app/webpack-overrides'
                 ),
-                
+                  "presets": [
+                    "react-app"
+                  ],
                 plugins: [
+                    [
+                      "@babel/plugin-proposal-decorators",
+                      {
+                        "legacy": true
+                      }
+                    ],
+                    [
+                      "@babel/plugin-proposal-class-properties",
+                      {
+                        "loose": true
+                      }
+                    ],
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
@@ -441,7 +456,7 @@ module.exports = function (webpackEnv) {
                 cacheDirectory: true,
                 // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
-                
+
                 // Babel sourcemaps are needed for debugging into node_modules
                 // code.  Without the options below, debuggers like VSCode
                 // show incorrect code and set breakpoints on the wrong lines.
