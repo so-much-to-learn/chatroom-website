@@ -1,5 +1,5 @@
-declare module '*.scss' {
-    const content: { [className: string]: string };
+declare module '*.css' {
+    const content: { [className: string]: string }
     export = content;
 }
 
@@ -11,6 +11,11 @@ declare interface AppStore {
 
     chatroomList: chatroomInfoItem[],
 
+}
+
+declare interface userInfo {
+    uid: number | null,
+    username: string | null
 }
 
 // 聊天室面板信息，显示在chatroomList中预览的

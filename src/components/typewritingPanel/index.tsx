@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 class TypewritingPanel extends Component {
-    render() {
-        return (
-            <div>
+  render() {
+    return (
+      <div>
                 typewriting
-            </div>
-        );
-    }
+      </div>
+    )
+  }
 }
 
-export default TypewritingPanel;
+export default TypewritingPanel

@@ -1,8 +1,0 @@
-@value colors: "../../styles/color.module.scss";
-
-@value sidebarBgc, sidebarColor from colors;
-
-.settingBar {
-  background-color: sidebarBgc;
-  color: sidebarColor;
-}

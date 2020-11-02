@@ -13,7 +13,16 @@
       "es2017",
       "dom"
     ],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "src",
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+      "@/*": [
+        "./*"
+      ]
+    }
   },
   "include": [
     "src"

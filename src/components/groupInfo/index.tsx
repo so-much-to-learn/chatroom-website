@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 class GroupInfo extends Component {
-    render() {
-        return (
-            <div>
+  render() {
+    return (
+      <div>
                 group name
-            </div>
-        );
-    }
+      </div>
+    )
+  }
 }
 
-export default GroupInfo;
+export default GroupInfo

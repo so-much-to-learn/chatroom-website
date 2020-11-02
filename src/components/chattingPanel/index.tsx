@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 class ChattingPanel extends Component {
-    render() {
-        return (
-            <div>
+  render() {
+    return (
+      <div>
                 chatting panel
-            </div>
-        );
-    }
+      </div>
+    )
+  }
 }
 
-export default ChattingPanel;
+export default ChattingPanel

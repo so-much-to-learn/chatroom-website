@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 class ChatroomList extends Component {
-    render() {
-        return (
-            <div>
+  render() {
+    return (
+      <div>
                 chatlist
-            </div>
-        );
-    }
+      </div>
+    )
+  }
 }
 
-export default ChatroomList;
+export default ChatroomList

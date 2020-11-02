@@ -1,35 +1,30 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { IObservableFactory } from 'mobx'
 import SettingBar from '../../components/settingBar/index'
-import ChatroomList from "../../components/chatroomList";
-import GroupInfo from "../../components/groupInfo";
-import ChattingPanel from "../../components/chattingPanel";
-import TypewritingPanel from "../../components/typewritingPanel";
+import ChatroomList from '../../components/chatroomList'
+import GroupInfo from '../../components/groupInfo'
+import ChattingPanel from '../../components/chattingPanel'
+import TypewritingPanel from '../../components/typewritingPanel'
 
 @inject('store')
 @observer
 export default class Home extends Component {
-    componentDidMount() {
-    }
-
-    render() {
-        // @ts-ignore
-        const {store} = this.props
-        return (
-            <div className='home'>
-                { store.chatroomNameList
-                    .map((chatroomObj: chatroomNameItem) =>
-                        <div key={ chatroomObj.id }>{ chatroomObj.recentMessage }</div>)
-                }
-                <SettingBar/>
-                <ChatroomList/>
-                <GroupInfo/>
-                <ChattingPanel/>
-                <TypewritingPanel/>
-            </div>
-        )
-    }
+  render() {
+    // @ts-ignore
+    const { store } = this.props
+    return (
+      <div className='home'>
+        { store.chatroomNameList
+          .map((chatroomObj: chatroomNameItem) =>
+            <div key={ chatroomObj.id }>{ chatroomObj.recentMessage }</div>)
+        }
+        <SettingBar/>
+        <ChatroomList/>
+        <GroupInfo/>
+        <ChattingPanel/>
+        <TypewritingPanel/>
+      </div>
+    )
+  }
 }
-
 
