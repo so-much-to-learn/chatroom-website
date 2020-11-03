@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './index.module.css'
+import { inject, observer } from 'mobx-react'
 import { Form, Input, Button, Tabs, Checkbox } from 'antd'
 
 const { TabPane } = Tabs
@@ -12,7 +13,9 @@ interface loginFormData {
     remember: boolean
 }
 
-const Login: React.FC = () => {
+const Login: React.FC = inject('store')(observer((props: any) => {
+    const { store, history } = props
+
     const [form] = Form.useForm()
     const username = localStorage.getItem(UsernameLocalKey) || ''   // username初始值
 
@@ -23,6 +26,8 @@ const Login: React.FC = () => {
         const { remember, username, password } = formData
         remember &&
         window.localStorage.setItem(UsernameLocalKey, username)
+        store.userLogin({ username, password })
+            .then(() => history.push('/'))
     }
 
     const onFinishFailed = (errorInfo: any) => {
@@ -86,6 +91,6 @@ const Login: React.FC = () => {
             </Tabs>
         </div>
     )
-}
+}))
 
 export default Login

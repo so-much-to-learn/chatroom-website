@@ -6,17 +6,19 @@ declare module '*.css' {
 // mobx store
 declare interface AppStore {
     chatroomNameList: () => chatroomNameItem[],
-
     addMessage: (chatroomId: number, messageObj: messageItem) => void
-
     chatroomList: chatroomInfoItem[],
+}
 
+declare interface apiResponse {
+    code: number,
+    data?: object,
+    message?: string
 }
 
 declare interface userInfo {
     uid: number | null,
     username: string | null,
-    token: string | null,
 }
 
 declare interface loginQuery {

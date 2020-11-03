@@ -9,8 +9,7 @@ class AppStore {
     @observable
     userInfo: userInfo = {
         uid: null,
-        username: null,
-        token: null
+        username: null
     }
 
     /**
@@ -30,6 +29,7 @@ class AppStore {
         }
     ]
 
+    // 计算属性： 获取左侧群列表信息
     @computed
     get chatroomNameList(): chatroomNameItem[] {
         return this.chatroomList.map(T => ({
@@ -44,9 +44,17 @@ class AppStore {
         console.log('addMessage')
     }
 
+    // 清空用户信息
+    @action
+    resetUserInfo(): void {
+        this.userInfo = { uid: null, username: null }
+    }
+
+    // 用户登录
     @action
     async userLogin({ username, password }: loginQuery = {}) {
-        this.userInfo = await Api.userLogin({ username, password })
+        return Api.userLogin({ username, password })
+            .then(data => this.userInfo = data)
     }
 }
 

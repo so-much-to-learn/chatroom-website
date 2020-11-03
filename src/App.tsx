@@ -5,17 +5,15 @@ import Home from './pages/home'
 import { HashRouter as Router, Route } from 'react-router-dom'
 import Login from './pages/login'
 
-function App() {
-  return (
-    <div className='App'>
-      <Provider store={ store }>
-        <Router>
-          <Route path='/' component={ Home } exact/>
-          <Route path='/login' component={ Login }/>
-        </Router>
-      </Provider>
-    </div>
-  )
+export default () => {
+    return (
+        <div className='App'>
+            <Provider store={ store }>
+                <Router>
+                    <Route path='/' component={ Home } exact/>
+                    <Route path='/login' component={ Login }/>
+                </Router>
+            </Provider>
+        </div>
+    )
 }
-
-export default App
