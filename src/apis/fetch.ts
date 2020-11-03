@@ -1,9 +1,9 @@
-import axios, { AxiosResponse, AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios'
+import axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios'
+import { CustomAxiosInstance } from 'typings/shims'
 import { BaseURL } from 'constants/server'
 
-const service: AxiosInstance = axios.create({
+const service: CustomAxiosInstance = axios.create({
     baseURL: BaseURL,
-    // paramsSerializer: params => qs.stringify(params, {arrayFormat: 'brackets'}),
     timeout: 5000
 })
 

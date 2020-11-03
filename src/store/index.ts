@@ -6,7 +6,8 @@ class AppStore {
      * 用户信息
      * @type {userInfo}
      */
-    @observable userInfo: userInfo = {
+    @observable
+    userInfo: userInfo = {
         uid: null,
         username: null,
         token: null
@@ -16,7 +17,8 @@ class AppStore {
      * 聊天室信息
      * @type {chatroomInfoItem[]}
      */
-    @observable chatroomList: chatroomInfoItem[] = [
+    @observable
+    chatroomList: chatroomInfoItem[] = [
         {
             id: 1,
             name: '哈罗群',
@@ -28,7 +30,8 @@ class AppStore {
         }
     ]
 
-    @computed get chatroomNameList(): chatroomNameItem[] {
+    @computed
+    get chatroomNameList(): chatroomNameItem[] {
         return this.chatroomList.map(T => ({
             id: T.id,
             name: T.name,
@@ -36,7 +39,8 @@ class AppStore {
         }))
     }
 
-    @action addMessage(chatroomId: number, messageObj: messageItem) {
+    @action
+    addMessage(chatroomId: number, messageObj: messageItem) {
         console.log('addMessage')
     }
 

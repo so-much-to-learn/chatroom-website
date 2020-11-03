@@ -23,7 +23,6 @@ const Login: React.FC = () => {
         const { remember, username, password } = formData
         remember &&
         window.localStorage.setItem(UsernameLocalKey, username)
-
     }
 
     const onFinishFailed = (errorInfo: any) => {
