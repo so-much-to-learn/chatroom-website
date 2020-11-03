@@ -15,7 +15,13 @@ declare interface AppStore {
 
 declare interface userInfo {
     uid: number | null,
-    username: string | null
+    username: string | null,
+    token: string | null,
+}
+
+declare interface loginQuery {
+    username?: string,
+    password?: string
 }
 
 // 聊天室面板信息，显示在chatroomList中预览的

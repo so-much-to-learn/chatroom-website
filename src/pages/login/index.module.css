@@ -10,11 +10,15 @@
   justify-content: center;
   align-items: center;
 
-  .form {
+  .tab {
     width: 550px;
-    height: 330px;
+    height: 300px;
     background-color: #fff;
-    padding: 20px;
+    padding: 0 20px 20px;
     border-radius: 4px;
+
+    :global(.ant-btn:first-child) {
+      margin-right: 8px;
+    }
   }
 }
