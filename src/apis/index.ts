@@ -8,13 +8,13 @@ const getChatroomMessage = ({ id = 1 } = {}) => fetch({
     data: { id }
 })
 
-const userLogin = ({ username, password }: loginQuery = {}): Promise<userInfo> => fetch({
+const userLogin = ({ username, password }: loginQuery = {}) => fetch({
     method: 'post',
     url: '/login',
     data: { username, password }
 })
 
-const userRegist = ({ username, password }: loginQuery = {}): Promise<userInfo> => fetch({
+const userRegist = ({ username, password }: loginQuery = {}) => fetch({
     method: 'post',
     url: '/regist',
     data: { username, password }

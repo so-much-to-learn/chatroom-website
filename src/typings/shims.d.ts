@@ -11,4 +11,6 @@ declare interface CustomAxiosInstance {
     post: <T = any>(url: string, config?: AxiosRequestConfig) => Promise<T>;
 
     <T = any>(config: AxiosRequestConfig): Promise<T>;
+
+    <apiResponse>(config: AxiosRequestConfig): Promise<apiResponse>;
 }

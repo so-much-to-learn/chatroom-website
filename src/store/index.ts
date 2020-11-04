@@ -1,7 +1,12 @@
 import { action, computed, observable } from 'mobx'
 import * as Api from 'apis'
+import { USER_INFO } from 'constants/browser'
 
 class AppStore {
+    constructor() {
+        this._getUserInfo()
+    }
+
     /**
      * 用户信息
      * @type {userInfo}
@@ -53,8 +58,15 @@ class AppStore {
     // 用户登录
     @action
     async userLogin({ username, password }: loginQuery = {}) {
-        return Api.userLogin({ username, password })
-            .then(data => this.userInfo = data)
+        const { data: userInfo } = await Api.userLogin({ username, password })
+        sessionStorage.setItem(USER_INFO, JSON.stringify(userInfo))
+        return this.userInfo = userInfo
+    }
+
+    // 获取保存在sessionStorage中的用户信息，刷新页面的时候不需要重新登录
+    _getUserInfo() {
+        const value = sessionStorage.getItem(USER_INFO)
+        this.userInfo = value ? JSON.parse(value) : value
     }
 }
 

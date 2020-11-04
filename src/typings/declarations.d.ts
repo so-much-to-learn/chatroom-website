@@ -12,7 +12,7 @@ declare interface AppStore {
 
 declare interface apiResponse {
     code: number,
-    data?: object,
+    data?: any,
     message?: string
 }
 

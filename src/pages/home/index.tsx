@@ -5,26 +5,27 @@ import ChatroomList from '../../components/chatroomList'
 import GroupInfo from '../../components/groupInfo'
 import ChattingPanel from '../../components/chattingPanel'
 import TypewritingPanel from '../../components/typewritingPanel'
+import { useHistory } from 'react-router'
 
-@inject('store')
-@observer
-export default class Home extends Component {
-  render() {
-    // @ts-ignore
-    const { store } = this.props
+const Home: React.FC = inject('store')(observer((props: any) => {
+    const { store } = props
+    if (!store.userInfo.uid) {
+        const history = useHistory()
+        history.push('/login')
+    }
     return (
-      <div className='home'>
-        { store.chatroomNameList
-          .map((chatroomObj: chatroomNameItem) =>
-            <div key={ chatroomObj.id }>{ chatroomObj.recentMessage }</div>)
-        }
-        <SettingBar/>
-        <ChatroomList/>
-        <GroupInfo/>
-        <ChattingPanel/>
-        <TypewritingPanel/>
-      </div>
+        <div className='home'>
+            { store.chatroomNameList
+                .map((chatroomObj: chatroomNameItem) =>
+                    <div key={ chatroomObj.id }>{ chatroomObj.recentMessage }</div>)
+            }
+            <SettingBar/>
+            <ChatroomList/>
+            <GroupInfo/>
+            <ChattingPanel/>
+            <TypewritingPanel/>
+        </div>
     )
-  }
-}
+}))
 
+export default Home
