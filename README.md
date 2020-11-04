@@ -4,9 +4,8 @@
 
 typescript@4 + react@17 + react-router@5 + css-modules + scss + mobx@5 + antd@4
 
-- [ ] 1. 前端界面搭建
-- [ ] 2. 后端服务搭建
-- [ ] 3. graphQL 引入
+- [x] 1. 登录/注册页面
+- [ ] 2. 聊天内容页面
 
 
 ## 收获

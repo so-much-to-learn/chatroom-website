@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { inject, observer } from 'mobx-react'
+import styles from './index.module.css'
 
-class GroupInfo extends Component {
-  render() {
+const GroupInfo: React.FC = inject('store')(observer((props: any) => {
     return (
-      <div>
-                group name
-      </div>
+        <div className={ styles.container }>
+            GroupInfo
+        </div>
     )
-  }
-}
+}))
 
 export default GroupInfo

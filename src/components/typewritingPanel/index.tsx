@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { inject, observer } from 'mobx-react'
+import styles from './index.module.css'
 
-class TypewritingPanel extends Component {
-  render() {
+const TypewritingPanel: React.FC = inject('store')(observer((props: any) => {
     return (
-      <div>
-                typewriting
-      </div>
+        <div className={ styles.container }>
+            TypewritingPanel
+        </div>
     )
-  }
-}
+}))
 
 export default TypewritingPanel

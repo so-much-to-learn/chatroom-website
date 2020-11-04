@@ -3,9 +3,7 @@
 @value sidebarBgc, sidebarColor from colors;
 
 .container {
-    background-color: sidebarBgc;
-    color: sidebarColor;
-    border-radius: 3px 0 0 3px;
-    flex-basis: 68px;
+    flex-basis: 60px;
     flex-grow: 0;
+    border-radius: 3px 3px 0 0;
 }

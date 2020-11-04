@@ -1,0 +1,31 @@
+@value colors: "styles/color.module.css";
+
+@value sidebarBgc, sidebarColor, chattingPanelBgc from colors;
+
+.home {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+
+    .container {
+        width: 1200px;
+        height: 900px;
+        background: #fff;
+        border-radius: 4px 3px 3px 4px;
+        display: flex;
+        flex-flow: row;
+
+        .room {
+            flex-grow: 1;
+            display: flex;
+            flex-flow: column;
+            justify-content: space-between;
+            border-radius: 3px 3px 0 0;
+            align-items: stretch;
+            background-color: chattingPanelBgc;
+        }
+    }
+}

@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
-import style from './index.module.css'
+import React from 'react'
+import { inject, observer } from 'mobx-react'
+import styles from './index.module.css'
 
-export default class SettingBar extends Component {
-    render() {
-        return (
-            <div className={ style.settingBar }>
-                setting bar
-            </div>
-        )
-    }
-}
+const SettingBar: React.FC = inject('store')(observer((props: any) => {
+    return (
+        <div className={ styles.container }>
+            settingbar
+        </div>
+    )
+}))
+
+export default SettingBar
