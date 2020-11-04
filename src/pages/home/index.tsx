@@ -9,7 +9,7 @@ import { useHistory } from 'react-router'
 
 const Home: React.FC = inject('store')(observer((props: any) => {
     const { store } = props
-    if (!store.userInfo.uid) {
+    if (!store?.userInfo?.uid) {
         const history = useHistory()
         history.push('/login')
     }
