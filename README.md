@@ -1,6 +1,6 @@
 chatroom
 
-TypeScript@4 + React@17 + css-modules + scss + MobX@5
+typescript@4 + react@17 + react-router@5 + css-modules + scss + mobx@5 + antd@4
 
 - [ ] 1. 前端界面搭建
 - [ ] 2. 后端服务搭建

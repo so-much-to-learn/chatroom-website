@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './index.module.css'
 import { inject, observer } from 'mobx-react'
-import { Form, Input, Button, Tabs, Checkbox } from 'antd'
+import { Form, Input, Button, Tabs, Checkbox, message } from 'antd'
+import * as Api from 'apis'
 
 const { TabPane } = Tabs
 
@@ -13,16 +14,24 @@ interface loginFormData {
     remember: boolean
 }
 
+interface registFormData {
+    username: string
+    password: string
+    passwordConfirm: string
+}
+
 const Login: React.FC = inject('store')(observer((props: any) => {
     const { store, history } = props
-
-    const [form] = Form.useForm()
-    const username = localStorage.getItem(UsernameLocalKey) || ''   // username初始值
+    const [loginForm] = Form.useForm()
+    const [registForm] = Form.useForm()
+    const [activeKey, setActiveKey] = useState('login')
+    const [usernameInit, setUsernameInit] = useState(localStorage.getItem(UsernameLocalKey) || '')   // username初始值
 
     /* region Methods */
-    const onReset = () => form.resetFields()
+    const onLoginFormReset = () => loginForm.resetFields()
+    const onRegistFormReset = () => registForm.resetFields()
 
-    const onFinish = (formData: loginFormData) => {
+    const onLogin = (formData: loginFormData) => {
         const { remember, username, password } = formData
         remember &&
         window.localStorage.setItem(UsernameLocalKey, username)
@@ -30,12 +39,30 @@ const Login: React.FC = inject('store')(observer((props: any) => {
             .then(() => history.push('/'))
     }
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo)
+    const onTabsChange = (activeKey: string) => {
+        setActiveKey(activeKey)
+        if (activeKey === 'login') {
+            onRegistFormReset()
+        } else {
+            onLoginFormReset()
+        }
     }
 
-    const onTabsChange = (activeKey: string) => {
-        console.log({ activeKey })
+    const onRegist = (formData: registFormData) => {
+        const { username } = formData
+        Api.userRegist(formData)
+            .then(() => {
+                window.localStorage.setItem(UsernameLocalKey, username)
+                setUsernameInit(username)
+                setActiveKey('login')
+                onRegistFormReset()
+                loginForm.setFieldsValue({
+                    remember: true,
+                    username
+                })
+                message.success('注册成功，现在登录吧')
+            })
+            .catch(err => console.error('Error: 注册失败 ', err))
     }
     /* endregion  */
 
@@ -52,17 +79,17 @@ const Login: React.FC = inject('store')(observer((props: any) => {
     return (
         <div className={ styles.container }>
             <Tabs defaultActiveKey='login'
+                  activeKey={ activeKey }
                   className={ styles.tab }
                   onChange={ onTabsChange }>
                 <TabPane tab='登录' key='login'>
-                    <Form name='basic'
-                          form={ form }
+                    <Form name='login'
+                          form={ loginForm }
                           { ...formLayout }
-                          initialValues={ { remember: true, username } }
-                          onFinish={ onFinish }
-                          onFinishFailed={ onFinishFailed }>
+                          initialValues={ { remember: true, username: usernameInit } }
+                          onFinish={ onLogin }>
                         <Form.Item label='用户名：' name='username'
-                                   tooltip='选中记住我下次将自动填写用户名'
+                                   tooltip='选中「记住我」下次将自动填写用户名'
                                    rules={ [{ required: true, message: '请输入用户名' }] }>
                             <Input/>
                         </Form.Item>
@@ -79,14 +106,45 @@ const Login: React.FC = inject('store')(observer((props: any) => {
 
                         <Form.Item { ...tailLayout }>
                             <Button type='primary' htmlType='submit'>提交</Button>
-                            <Button htmlType='button' onClick={ onReset }>重制</Button>
+                            <Button htmlType='button' onClick={ onLoginFormReset }>重置</Button>
                         </Form.Item>
                     </Form>
                 </TabPane>
                 <TabPane tab='注册' key='regist'>
-                    <p>Content of Tab Pane 2</p>
-                    <p>Content of Tab Pane 2</p>
-                    <p>Content of Tab Pane 2</p>
+                    <Form name='regist'
+                          form={ registForm }
+                          { ...formLayout }
+                          onFinish={ onRegist }>
+                        <Form.Item label='用户名：' name='username'
+                                   rules={ [{ required: true, message: '请输入用户名' }] }>
+                            <Input/>
+                        </Form.Item>
+
+                        <Form.Item label='密码：' name='password'
+                                   rules={ [{ required: true, message: '请输入密码' }] }>
+                            <Input.Password/>
+                        </Form.Item>
+
+                        <Form.Item label='确认密码：' name='passwordConfirm'
+                                   rules={ [
+                                       { required: true, message: '请输入确认密码' },
+                                       ({ getFieldValue }) => ({
+                                           validator(rule, value) {
+                                               if (getFieldValue('password') === value) {
+                                                   return Promise.resolve()
+                                               }
+                                               return Promise.reject(new Error('The two passwords that you entered do not match!'))
+                                           }
+                                       })
+                                   ] }>
+                            <Input.Password/>
+                        </Form.Item>
+
+                        <Form.Item { ...tailLayout }>
+                            <Button type='primary' htmlType='submit'>提交</Button>
+                            <Button htmlType='button' onClick={ onRegistFormReset }>重置</Button>
+                        </Form.Item>
+                    </Form>
                 </TabPane>
             </Tabs>
         </div>

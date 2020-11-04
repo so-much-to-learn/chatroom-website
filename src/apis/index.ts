@@ -14,7 +14,14 @@ const userLogin = ({ username, password }: loginQuery = {}): Promise<userInfo> =
     data: { username, password }
 })
 
+const userRegist = ({ username, password }: loginQuery = {}): Promise<userInfo> => fetch({
+    method: 'post',
+    url: '/regist',
+    data: { username, password }
+})
+
 export {
     getChatroomMessage,
-    userLogin
+    userLogin,
+    userRegist
 }
