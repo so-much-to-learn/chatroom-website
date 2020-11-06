@@ -538,7 +538,10 @@ module.exports = function(webpackEnv) {
                   {
                     loader: require.resolve('sass-resources-loader'),
                     options: {
-                      resources: [path.resolve(__dirname, '../src/styles/mixin.scss')]
+                      resources: [
+                          path.resolve(__dirname, '../src/styles/mixin.scss'),
+                          path.resolve(__dirname, '../src/styles/variables.scss')
+                      ]
                     }
                   })
             },

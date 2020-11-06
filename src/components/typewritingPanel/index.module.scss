@@ -35,9 +35,7 @@
             margin: 0;
 
             .ant-form-item-control-input-content {
-                display: flex;
-                flex-flow: row;
-                justify-content: flex-end;
+                @include flexbox($justify-content: flex-end);
             }
         }
     }

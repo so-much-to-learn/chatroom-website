@@ -1,39 +1,18 @@
-// 全局调色盘
-$blue: #457fff;
-$green: #7ed321;
-$yellow: #f8e71c;
-$orange: #f5a623;
-$red: #dc2921;
-$purple: #bd10e0;
-$light-blue: #1990ff;
-$grey: #bfcbd9;
-$black: #000;
-$white: #fff;
+// flex
+@mixin flexbox($flex-direction: row, $justify-content: flex-start, $align-items: center) {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: $flex-direction;
+  align-items: $align-items;
+  justify-content: $justify-content;
+}
 
-$sidebar-bgc: #4d474b;
-$sidebar-color: #a5a4a5;
-$chatroom-list-bgc: #fbfbfb;
-$chatroom-list-bgc-em: #d6d6d6;
-$chatting-panel-bgc: #f3f3f3;
-$chatting-panel-message-bgc: #a9e97a;
-
-
-// 字体设置
-$font-color: rgba(0, 0, 0, 0.85);
-$font-color2: rgba(0, 0, 0, 0.65);
-$font-color3: rgba(0, 0, 0, 0.45);
-$font-color4: rgba(0, 0, 0, 0.25);
-
-$fontweight-regular: 400;
-$fontweight-medium: 500;
-$fontweight-semibold: 600;
-
-// 距离设置
-$dist-small: 8px;
-$dist-middle: 16px;
-$dist-large: 24px;
-$dist-huge: 32px;
-
-// 效果设置
-$default-transition: all .5s;
-$main-border-radius: 4px;
+// 文本超出显示省略号
+@mixin overflowEllipsis($line: 1) {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+}
