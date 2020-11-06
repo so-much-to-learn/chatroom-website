@@ -1,9 +1,0 @@
-@value colors: "../../styles/color.module.css";
-
-@value sidebarBgc, sidebarColor from colors;
-
-.container {
-    border-radius: 3px 0 0 3px;
-    flex-basis: 240px;
-    flex-grow: 0;
-}

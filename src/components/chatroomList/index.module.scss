@@ -1,9 +1,5 @@
-@value colors: "../../styles/color.module.css";
-
-@value sidebarBgc, sidebarColor, chatroomListBgc, chatroomListBgcEm from colors;
-
 .container {
-    background-color: chatroomListBgc;
+    background-color: $chatroom-list-bgc;
     flex-basis: 310px;
     flex-grow: 0;
     display: flex;
@@ -14,6 +10,7 @@
 
 .chatroomItem {
     height: 70px;
+    cursor: pointer;
 
     .header {
         color: #070707;

@@ -1,0 +1,27 @@
+.home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+
+  .container {
+    width: 1200px;
+    height: 900px;
+    background: #fff;
+    border-radius: $main-border-radius +3;
+    display: flex;
+    flex-flow: row;
+
+    .room {
+      flex-grow: 1;
+      display: flex;
+      flex-flow: column;
+      justify-content: space-between;
+      border-radius: 0 $main-border-radius $main-border-radius 0;
+      align-items: stretch;
+      background-color: $chatting-panel-bgc;
+    }
+  }
+}

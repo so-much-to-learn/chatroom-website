@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styles from 'components/chattingPanel/index.module.css'
+import styles from 'components/chattingPanel/index.module.scss'
 
 class ChattingPanel extends Component {
     render() {

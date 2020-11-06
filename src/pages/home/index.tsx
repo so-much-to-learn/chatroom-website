@@ -6,7 +6,7 @@ import GroupInfo from 'components/groupInfo'
 import ChattingPanel from 'components/chattingPanel'
 import TypewritingPanel from 'components/typewritingPanel'
 import { useHistory } from 'react-router'
-import styles from './index.module.css'
+import styles from './index.module.scss'
 
 const Home: React.FC = inject('store')(observer((props: any) => {
     const { store } = props

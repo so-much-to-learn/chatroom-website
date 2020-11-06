@@ -3,6 +3,11 @@ declare module '*.css' {
     export = content;
 }
 
+declare module '*.scss' {
+    const content: { [className: string]: string }
+    export = content;
+}
+
 // mobx store
 declare interface AppStore {
     chatroomNameList: () => chatroomNameItem[],

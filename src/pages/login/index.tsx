@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import styles from './index.module.css'
+import styles from './index.module.scss'
 import { inject, observer } from 'mobx-react'
 import { Form, Input, Button, Tabs, Checkbox, message } from 'antd'
 import * as Api from 'apis'

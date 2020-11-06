@@ -1,0 +1,7 @@
+.container {
+  background-color: $sidebar-bgc;
+  color: $sidebar-color;
+  border-radius: $main-border-radius 0 0 $main-border-radius;
+  flex-basis: 68px;
+  flex-grow: 0;
+}

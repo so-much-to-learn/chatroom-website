@@ -534,7 +534,13 @@ module.exports = function(webpackEnv) {
                   }
                 },
                 'sass-loader'
-              )
+              ).concat(
+                  {
+                    loader: require.resolve('sass-resources-loader'),
+                    options: {
+                      resources: [path.resolve(__dirname, '../src/styles/mixin.scss')]
+                    }
+                  })
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
