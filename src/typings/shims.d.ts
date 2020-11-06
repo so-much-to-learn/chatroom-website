@@ -6,11 +6,7 @@ declare interface CustomAxiosInstance {
         response: AxiosInterceptorManager<AxiosResponse>;
     }
 
-    get: <T = any>(url: string, config?: AxiosRequestConfig) => Promise<T>;
-
-    post: <T = any>(url: string, config?: AxiosRequestConfig) => Promise<T>;
+    request: <T = any>(config: AxiosRequestConfig) => Promise<T>;
 
     <T = any>(config: AxiosRequestConfig): Promise<T>;
-
-    <apiResponse>(config: AxiosRequestConfig): Promise<apiResponse>;
 }

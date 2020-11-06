@@ -1,0 +1,7 @@
+@value colors: "../../styles/color.module.css";
+
+@value sidebarBgc, sidebarColor from colors;
+
+.container {
+    flex-grow: 1;
+}

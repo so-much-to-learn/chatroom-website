@@ -10,9 +10,9 @@ declare interface AppStore {
     chatroomList: chatroomInfoItem[],
 }
 
-declare interface apiResponse {
+declare interface apiResponse<T = any> {
     code: number,
-    data?: any,
+    data?: T,
     message?: string
 }
 

@@ -3,10 +3,6 @@ import * as Api from 'apis'
 import { USER_INFO } from 'constants/browser'
 
 class AppStore {
-    constructor() {
-        this._getUserInfo()
-    }
-
     /**
      * 用户信息
      * @type {userInfo}
@@ -65,6 +61,10 @@ class AppStore {
         }
     ]
 
+    constructor() {
+        this._getUserInfo()
+    }
+
     // 计算属性： 获取左侧群列表信息
     @computed
     get chatroomNameList(): chatroomNameItem[] {
@@ -89,7 +89,7 @@ class AppStore {
     // 用户登录
     @action
     async userLogin({ username, password }: loginQuery = {}) {
-        const { data: userInfo } = await Api.userLogin({ username, password })
+        const userInfo = await Api.userLogin({ username, password })
         sessionStorage.setItem(USER_INFO, JSON.stringify(userInfo))
         return this.userInfo = userInfo
     }

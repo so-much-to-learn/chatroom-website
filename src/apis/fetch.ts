@@ -24,7 +24,7 @@ service.interceptors.request.use(
 // respone拦截器
 service.interceptors.response.use(
     (response: AxiosResponse) => {
-        const { code, data, message } = response.data as apiResponse
+        const { code, data: { data }, message } = response.data as apiResponse
         const config = response.config
 
         if (![20000].includes(code)) {        // code为非20000或20001是抛错
@@ -36,7 +36,7 @@ service.interceptors.response.use(
             }
             return Promise.reject(new Error(message))
         }
-        return response.data
+        return data
     },
     (error: AxiosError) => {
         error.message = '网络通讯异常，请检查！'
@@ -44,4 +44,4 @@ service.interceptors.response.use(
     }
 )
 
-export default service
+export default service.request
