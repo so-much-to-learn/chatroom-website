@@ -10,9 +10,9 @@ declare module '*.scss' {
 
 // mobx store
 declare interface AppStore {
-    chatroomNameList: () => chatroomNameItem[],
-    addMessage: (chatroomId: number, messageObj: messageItem) => void
-    chatroomList: chatroomInfoItem[],
+    chatroomNameList: () => IChatroomNameItem[],
+    addMessage: (chatroomId: number, messageObj: IMessageItem) => void
+    chatroomList: IChatroomInfoItem[],
 }
 
 declare interface apiResponse<T = any> {
@@ -32,7 +32,7 @@ declare interface loginQuery {
 }
 
 // 聊天室面板信息，显示在chatroomList中预览的
-declare interface chatroomNameItem {
+declare interface IChatroomNameItem {
     id: number,
     name: string,
     // 最近消息
@@ -40,14 +40,14 @@ declare interface chatroomNameItem {
 }
 
 // 聊天室信息对象
-declare interface chatroomInfoItem {
+declare interface IChatroomInfoItem {
     id: number,
     name: string,
-    messageList: messageItem[]
+    messageList: IMessageItem[]
 }
 
 // 消息体
-declare interface messageItem {
+declare interface IMessageItem {
     id: number,
     personName: string,
     message: string

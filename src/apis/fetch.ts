@@ -24,7 +24,7 @@ service.interceptors.request.use(
 // respone拦截器
 service.interceptors.response.use(
     (response: AxiosResponse) => {
-        const { code, data: { data }, message } = response.data as apiResponse
+        const { code, data, message } = response.data as apiResponse
         const config = response.config
 
         if (![20000].includes(code)) {        // code为非20000或20001是抛错
