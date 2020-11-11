@@ -8,11 +8,24 @@ declare module '*.scss' {
     export = content;
 }
 
+// 聊天室信息对象
+declare interface IChatroomInfoItem {
+    id: number,
+    name: string,
+    messageList: IMessageItem[]
+}
+
 // mobx store
-declare interface AppStore {
-    chatroomNameList: () => IChatroomNameItem[],
+declare interface IAppStore {
+    chatroomNameList: IChatroomNameItem[],
     addMessage: (chatroomId: number, messageObj: IMessageItem) => void
-    chatroomList: IChatroomInfoItem[],
+    userInfo: userInfo,
+    chatroomInfoList: IChatroomInfoItem[],
+    currentChatroom: IChatroomInfoItem | null,
+    userLogin: ({ username, password }: loginQuery) => Promise<userInfo>,
+    getChatroomInfoList: () => void,
+    changeChatroom: (chatroomId: number) => IChatroomInfoItem | null,
+    resetUserInfo: () => void
 }
 
 declare interface apiResponse<T = any> {
@@ -39,16 +52,14 @@ declare interface IChatroomNameItem {
     recentMessage: string,
 }
 
-// 聊天室信息对象
-declare interface IChatroomInfoItem {
-    id: number,
-    name: string,
-    messageList: IMessageItem[]
-}
-
 // 消息体
 declare interface IMessageItem {
-    id: number,
+    uid: number,
     personName: string,
     message: string
+}
+
+// 有store的props
+interface IPropsWithStore {
+    store: IAppStore,
 }

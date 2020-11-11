@@ -1,5 +1,5 @@
 const Data = require('./data')
-const Mock = require('mockjs');
+const Mock = require('mockjs')
 
 const respWithCode = data => ({
     code: 20000,

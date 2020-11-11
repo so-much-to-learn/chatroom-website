@@ -74,6 +74,7 @@ module.exports = {
     'no-multi-spaces': 0,
     'no-multi-str': 2,
     'no-multiple-empty-lines': [2, { 'max': 1 }],
+    'max-nested-callbacks': 0,
     'no-native-reassign': 2,
     'no-negated-in-lhs': 2,
     'no-new-object': 2,
