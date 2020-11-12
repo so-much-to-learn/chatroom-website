@@ -1,16 +1,22 @@
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { inject, observer } from 'mobx-react'
 import styles from './index.module.scss'
 import { Form, Input, Button } from 'antd'
+import store from 'store'
 
-const TypewritingPanel: React.FC = inject('store')(observer((props: any) => {
-    const { store } = props
+const TypewritingPanel: React.FC = observer((props: any) => {
+    const { userInfo, currentChatroom } = store
     const [form] = Form.useForm()
 
+    useEffect(() => {
+        console.log('currentChatroom?.id改变了，清空信息')
+        form.resetFields()
+    }, [currentChatroom?.id])
+
     const onFinish = ({ message }: { message: string }) => {
-        if (!message) return
+        if (!message || !currentChatroom) return
         console.log(message)
-        store.addMessage()
+        store.addMessage(currentChatroom.id, { ...userInfo, message })
         form.resetFields()
     }
 
@@ -33,6 +39,6 @@ const TypewritingPanel: React.FC = inject('store')(observer((props: any) => {
             </Form>
         </div>
     )
-}))
+})
 
 export default TypewritingPanel

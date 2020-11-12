@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { inject, observer } from 'mobx-react'
 import styles from './index.module.scss'
+import store from 'store'
 
-const ChatroomList: React.FC<IPropsWithStore> = inject('store')(observer((props) => {
-    const { store } = props
-
+const ChatroomList: React.FC = observer((props) => {
     useEffect(() => {
         store.getChatroomInfoList()
+            .then(chatroomInfoList => chatroomInfoList.length &&
+                store.changeChatroom(chatroomInfoList[0].id))
     }, [])
 
     return (
@@ -19,15 +20,17 @@ const ChatroomList: React.FC<IPropsWithStore> = inject('store')(observer((props)
             }
         </div>
     )
-}))
+})
 
-interface IChatroomItemProps extends IChatroomNameItem, IPropsWithStore {
-}
+const ChatroomItem: React.FC<IChatroomNameItem> = observer((props) => {
+    const { name, recentMessage, id } = props
 
-const ChatroomItem: React.FC = inject('store')(observer((props) => {
-    const { name, recentMessage, store } = props as IChatroomItemProps
+    const handleChangeChatroom = () => {
+        store.changeChatroom(id)
+    }
+
     return (
-        <div className={ styles.chatroomItem }>
+        <div className={ styles.chatroomItem } onClick={ handleChangeChatroom }>
             <div className={ styles.header }>
                 { name }
             </div>
@@ -36,6 +39,6 @@ const ChatroomItem: React.FC = inject('store')(observer((props) => {
             </div>
         </div>
     )
-}))
+})
 
 export default ChatroomList

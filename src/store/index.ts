@@ -38,9 +38,10 @@ class AppStore {
         }))
     }
 
+    // 用户在群组发送消息
     @action
     addMessage(chatroomId: number, messageObj: IMessageItem) {
-        console.log('addMessage:')
+        console.log('addMessage:', chatroomId, messageObj)
     }
 
     // 用户登录
@@ -54,7 +55,7 @@ class AppStore {
     // 获取群list信息
     @action
     async getChatroomInfoList() {
-        this.chatroomInfoList = await Api.chatroomInfoList()
+        return this.chatroomInfoList = await Api.chatroomInfoList()
     }
 
     // 清空用户信息

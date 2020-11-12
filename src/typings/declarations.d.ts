@@ -23,7 +23,7 @@ declare interface IAppStore {
     chatroomInfoList: IChatroomInfoItem[],
     currentChatroom: IChatroomInfoItem | null,
     userLogin: ({ username, password }: loginQuery) => Promise<userInfo>,
-    getChatroomInfoList: () => void,
+    getChatroomInfoList: () => Promise<IChatroomInfoItem[]>,
     changeChatroom: (chatroomId: number) => IChatroomInfoItem | null,
     resetUserInfo: () => void
 }
@@ -53,9 +53,7 @@ declare interface IChatroomNameItem {
 }
 
 // 消息体
-declare interface IMessageItem {
-    uid: number,
-    personName: string,
+declare interface IMessageItem extends userInfo {
     message: string
 }
 
