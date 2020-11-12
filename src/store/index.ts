@@ -40,7 +40,7 @@ class AppStore {
 
     // 用户在群组发送消息
     @action
-    addMessage(chatroomId: number, messageObj: IMessageItem) {
+    addMessage(chatroomId: number, messageObj: IMessageItemRequest) {
         console.log('addMessage:', chatroomId, messageObj)
     }
 

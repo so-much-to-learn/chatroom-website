@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react'
 import styles from './index.module.scss'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { Form, Input, Button, Tabs, Checkbox, message } from 'antd'
 import * as Api from 'apis'
+import store from 'store'
+import { RouteComponentProps } from 'react-router'
 
 const { TabPane } = Tabs
 
@@ -20,8 +22,8 @@ interface registFormData {
     passwordConfirm: string
 }
 
-const Login: React.FC = inject('store')(observer((props: any) => {
-    const { store, history } = props
+const Login: React.FC<RouteComponentProps> = observer((props) => {
+    const { history } = props
     const [loginForm] = Form.useForm()
     const [registForm] = Form.useForm()
     const [activeKey, setActiveKey] = useState('login')
@@ -149,6 +151,6 @@ const Login: React.FC = inject('store')(observer((props: any) => {
             </Tabs>
         </div>
     )
-}))
+})
 
 export default Login

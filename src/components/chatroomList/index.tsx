@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react'
 import styles from './index.module.scss'
 import store from 'store'
 
-const ChatroomList: React.FC = observer((props) => {
+const ChatroomList: React.FC = () => {
     useEffect(() => {
         store.getChatroomInfoList()
             .then(chatroomInfoList => chatroomInfoList.length &&
@@ -20,7 +20,7 @@ const ChatroomList: React.FC = observer((props) => {
             }
         </div>
     )
-})
+}
 
 const ChatroomItem: React.FC<IChatroomNameItem> = observer((props) => {
     const { name, recentMessage, id } = props
@@ -30,7 +30,8 @@ const ChatroomItem: React.FC<IChatroomNameItem> = observer((props) => {
     }
 
     return (
-        <div className={ styles.chatroomItem } onClick={ handleChangeChatroom }>
+        <div className={ `${ styles.chatroomItem } ${ id === store.currentChatroom?.id ? styles['is-active'] : '' }` }
+             onClick={ handleChangeChatroom }>
             <div className={ styles.header }>
                 { name }
             </div>
@@ -41,4 +42,4 @@ const ChatroomItem: React.FC<IChatroomNameItem> = observer((props) => {
     )
 })
 
-export default ChatroomList
+export default observer(ChatroomList)

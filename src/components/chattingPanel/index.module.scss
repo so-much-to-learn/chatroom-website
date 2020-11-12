@@ -1,4 +1,40 @@
 .container {
   flex-grow: 1;
   padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  :global .message-item {
+    $messge-padding: 120px;
+
+    @include flexbox(column, inherit, flex-start);
+    color: $font-color;
+    margin-top: 20px;
+    padding-right: $messge-padding;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &-username {
+      color: $font-color4;
+      margin-bottom: 5px;
+    }
+
+    &-message {
+      background-color: $white;
+      padding: 5px 10px;
+      margin: 0;
+      box-shadow: $message-item-shadow;
+      word-break: break-all;
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    &.is-me {
+      align-items: flex-end;
+      padding-right: 0;
+      padding-left: $messge-padding;
+    }
+  }
 }

@@ -1,28 +1,33 @@
 .container {
-    background-color: $chatroom-list-bgc;
-    flex-basis: 310px;
-    width: 310px;
-    flex-grow: 0;
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: stretch;
+  background-color: $chatroom-list-bgc;
+  flex-basis: 310px;
+  width: 310px;
+  flex-grow: 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 .chatroomItem {
-    height: 70px;
-    cursor: pointer;
-    border-bottom: $border;
-    padding: 12px;
+  height: 70px;
+  cursor: pointer;
+  border-bottom: $border;
+  padding: 12px;
 
-    .header {
-        color: $black;
-        font-size: 16px;
-    }
+  &:active,
+  &.is-active {
+    background-color: $chatroom-list-bgc-em;
+  }
 
-    .content {
-        color: $grey;
-        font-size: 14px;
-        @include overflowEllipsis;
-    }
+  .header {
+    color: $black;
+    font-size: 16px;
+  }
+
+  .content {
+    color: $grey;
+    font-size: 14px;
+    @include overflowEllipsis;
+  }
 }

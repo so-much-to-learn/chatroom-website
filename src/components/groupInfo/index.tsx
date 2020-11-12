@@ -1,14 +1,14 @@
 import React from 'react'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react'
 import styles from './index.module.scss'
+import store from 'store'
 
-const GroupInfo: React.FC = inject('store')(observer((props) => {
-    const { store } = props as IPropsWithStore
+const GroupInfo: React.FC = observer((props) => {
     return (
         <div className={ styles.container }>
             { store.currentChatroom?.name }
         </div>
     )
-}))
+})
 
 export default GroupInfo

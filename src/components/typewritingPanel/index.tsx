@@ -4,12 +4,11 @@ import styles from './index.module.scss'
 import { Form, Input, Button } from 'antd'
 import store from 'store'
 
-const TypewritingPanel: React.FC = observer((props: any) => {
+const TypewritingPanel: React.FC = observer((props) => {
     const { userInfo, currentChatroom } = store
     const [form] = Form.useForm()
 
     useEffect(() => {
-        console.log('currentChatroom?.id改变了，清空信息')
         form.resetFields()
     }, [currentChatroom?.id])
 

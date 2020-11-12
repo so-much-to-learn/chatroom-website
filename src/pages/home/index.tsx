@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react'
 import SettingBar from 'components/settingBar/index'
 import ChatroomList from 'components/chatroomList'
 import GroupInfo from 'components/groupInfo'
@@ -7,10 +7,9 @@ import ChattingPanel from 'components/chattingPanel'
 import TypewritingPanel from 'components/typewritingPanel'
 import { useHistory } from 'react-router'
 import styles from './index.module.scss'
+import store from 'store'
 
-const Home: React.FC = inject('store')(observer((props: any) => {
-    const { store } = props
-
+const Home: React.FC = (props) => {
     if (!store?.userInfo?.uid) {
         const history = useHistory()
         history.push('/login')
@@ -29,6 +28,6 @@ const Home: React.FC = inject('store')(observer((props: any) => {
             </div>
         </div>
     )
-}))
+}
 
-export default Home
+export default observer(Home)

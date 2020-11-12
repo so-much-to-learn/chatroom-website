@@ -18,7 +18,7 @@ declare interface IChatroomInfoItem {
 // mobx store
 declare interface IAppStore {
     chatroomNameList: IChatroomNameItem[],
-    addMessage: (chatroomId: number, messageObj: IMessageItem) => void
+    addMessage: (chatroomId: number, messageObj: IMessageItemRequest) => void
     userInfo: userInfo,
     chatroomInfoList: IChatroomInfoItem[],
     currentChatroom: IChatroomInfoItem | null,
@@ -52,9 +52,15 @@ declare interface IChatroomNameItem {
     recentMessage: string,
 }
 
+// 请求消息体
+declare interface IMessageItemRequest extends userInfo {
+    message: string,
+}
+
 // 消息体
 declare interface IMessageItem extends userInfo {
-    message: string
+    message: string,
+    messageId: string
 }
 
 // 有store的props
