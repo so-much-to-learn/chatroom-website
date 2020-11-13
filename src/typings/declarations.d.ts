@@ -15,19 +15,6 @@ declare interface IChatroomInfoItem {
     messageList: IMessageItem[]
 }
 
-// mobx store
-declare interface IAppStore {
-    chatroomNameList: IChatroomNameItem[],
-    addMessage: (chatroomId: number, messageObj: IMessageItemRequest) => void
-    userInfo: userInfo,
-    chatroomInfoList: IChatroomInfoItem[],
-    currentChatroom: IChatroomInfoItem | null,
-    userLogin: ({ username, password }: loginQuery) => Promise<userInfo>,
-    getChatroomInfoList: () => Promise<IChatroomInfoItem[]>,
-    changeChatroom: (chatroomId: number) => IChatroomInfoItem | null,
-    resetUserInfo: () => void
-}
-
 declare interface apiResponse<T = any> {
     code: number,
     data?: T,

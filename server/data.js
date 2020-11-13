@@ -1,3 +1,5 @@
+// 持久化层是写在内存中的，有条件应该写在数据库中
+
 module.exports = {
     userList: [
         { uid: 123, username: '钓鱼达人', password: '123' },

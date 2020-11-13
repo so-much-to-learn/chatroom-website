@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx'
 import * as Api from 'apis'
-import { USER_INFO, USER_SEND_MESSAGE, USER_SEND_MESSAGE_RES } from 'constants/index'
-import { io } from 'socket.io-client'
+import { USER_INFO, USER_SEND_MESSAGE, USER_SEND_MESSAGE_RES } from 'constants/browser'
+import { io, Socket } from 'socket.io-client'
 import { BaseURL } from 'constants/server'
 
 const socket = io(BaseURL, { transports: ['websocket', 'xhr-polling', 'jsonp-polling'] })
@@ -16,6 +16,8 @@ class AppStore {
         uid: null,
         username: null
     }
+
+    public socket: Socket = socket
 
     /**
      * 聊天室信息列表
@@ -90,3 +92,16 @@ class AppStore {
 const store: IAppStore = new AppStore()
 
 export default store
+
+declare interface IAppStore {
+    socket: Socket,
+    chatroomNameList: IChatroomNameItem[],
+    addMessage: (chatroomId: number, messageObj: IMessageItemRequest) => void
+    userInfo: userInfo,
+    chatroomInfoList: IChatroomInfoItem[],
+    currentChatroom: IChatroomInfoItem | null,
+    userLogin: ({ username, password }: loginQuery) => Promise<userInfo>,
+    getChatroomInfoList: () => Promise<IChatroomInfoItem[]>,
+    changeChatroom: (chatroomId: number) => IChatroomInfoItem | null,
+    resetUserInfo: () => void
+}
