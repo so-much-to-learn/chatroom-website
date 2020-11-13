@@ -2,11 +2,15 @@ const path = require('path')
 const express = require('express')
 const app = express()
 const server = require('http').createServer(app)
-const io = require('socket.io')(server)
+const io = require('socket.io')(server, {
+    'origins': '*:*',
+    'transports': ['websocket', 'xhr-polling', 'jsonp-polling', 'htmlfile', 'flashsocket']
+})
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
+const Data = require('./data')
+const Utils = require('./utils')
 const Api = require('./api')
 
 // 允许跨域
@@ -24,49 +28,17 @@ app.post('/login', (req, res) => {
 app.post('/regist', (req, res) => {
     res.json(Api.regist(req))
 })
-
 app.get('/chatroom/info-list', (req, res) => {
     res.json(Api.chatroomInfoList(req))
 })
 
-const onlineUsers = {}   // 在线用户
-let onlineCount = 0      // 在线用户人数
-
 io.on('connection', socket => {
-    socket.on('login', obj => {
-        console.log(obj, ' - login')
-        socket.id = obj.uid   // 用户id设为socketid
-
-        // 如果没有这个用户，那么在线人数+1，将其添加进在线用户
-        if (!onlineUsers[obj.uid]) {
-            onlineUsers[obj.uid] = obj.username
-            onlineCount++
-        }
-
-        // 向客户端发送登陆事件，同时发送在线用户、在线人数以及登陆用户
-        io.emit('login', { onlineUsers: onlineUsers, onlineCount: onlineCount, user: obj })
-        console.log(obj.username + '加入了群聊')
-    })
-
-    socket.on('disconnect', () => {
-        // 如果有这个用户
-        if (onlineUsers[socket.id]) {
-            const obj = { uid: socket.id, username: onlineUsers[socket.id] }
-
-            // 删掉这个用户，在线人数-1
-            delete onlineUsers[socket.id]
-            onlineCount--
-
-            // 向客户端发送登出事件，同时发送在线用户、在线人数以及登出用户
-            io.emit('logout', { onlineUsers: onlineUsers, onlineCount: onlineCount, user: obj })
-            console.log(obj.username + '退出了群聊')
-        }
-    })
-
-    // 监听客户端发送的信息
-    socket.on('message', (obj) => {
-        io.emit('message', obj)
-        console.log(obj.username + '说:' + obj.message)
+    // 用户在群组中发送消息
+    socket.on('user-send-message', ({ chatroomId, messageObj }) => {
+        const chatroom = Data.chatroomInfoItems.find(chatroom => chatroom.id === chatroomId)
+        const newMessage = { messageId: Utils.guid(), ...messageObj }
+        chatroom.messageList.push(newMessage)
+        io.emit('user-send-message-res', { chatroomId, newMessage })
     })
 })
 

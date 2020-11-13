@@ -5,7 +5,6 @@ import { observer } from 'mobx-react'
 
 const ChattingPanel: React.FC = () => {
     const chattingPanelDom = useRef(null)
-    console.log(store.currentChatroom)
     return (
         <div className={ styles.container }
              ref={ chattingPanelDom }>

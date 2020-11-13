@@ -9,7 +9,7 @@
 
     @include flexbox(column, inherit, flex-start);
     color: $font-color;
-    margin-top: 20px;
+    margin-top: 15px;
     padding-right: $messge-padding;
 
     &:first-child {
@@ -36,6 +36,10 @@
       align-items: flex-end;
       padding-right: 0;
       padding-left: $messge-padding;
+
+      .message-item-message {
+        background-color: $message-item-bg-me;
+      }
     }
   }
 }

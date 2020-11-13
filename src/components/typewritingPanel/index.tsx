@@ -14,7 +14,6 @@ const TypewritingPanel: React.FC = observer((props) => {
 
     const onFinish = ({ message }: { message: string }) => {
         if (!message || !currentChatroom) return
-        console.log(message)
         store.addMessage(currentChatroom.id, { ...userInfo, message })
         form.resetFields()
     }

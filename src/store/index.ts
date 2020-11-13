@@ -1,6 +1,10 @@
 import { action, computed, observable } from 'mobx'
 import * as Api from 'apis'
-import { USER_INFO } from 'constants/browser'
+import { USER_INFO, USER_SEND_MESSAGE, USER_SEND_MESSAGE_RES } from 'constants/index'
+import { io } from 'socket.io-client'
+import { BaseURL } from 'constants/server'
+
+const socket = io(BaseURL, { transports: ['websocket', 'xhr-polling', 'jsonp-polling'] })
 
 class AppStore {
     /**
@@ -26,6 +30,11 @@ class AppStore {
 
     constructor() {
         this._getUserInfo()
+        socket.on(USER_SEND_MESSAGE_RES, ({ chatroomId, newMessage }: { chatroomId: number, newMessage: IMessageItem }) => {
+            this.chatroomInfoList
+                .find(chatroom => chatroom.id === chatroomId)
+                ?.messageList.push(newMessage)
+        })
     }
 
     // 计算属性： 获取左侧群列表信息
@@ -41,7 +50,7 @@ class AppStore {
     // 用户在群组发送消息
     @action
     addMessage(chatroomId: number, messageObj: IMessageItemRequest) {
-        console.log('addMessage:', chatroomId, messageObj)
+        socket.emit(USER_SEND_MESSAGE, { chatroomId, messageObj })
     }
 
     // 用户登录

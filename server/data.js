@@ -2,6 +2,7 @@ module.exports = {
     userList: [
         { uid: 123, username: '钓鱼达人', password: '123' },
         { uid: 124, username: '无良自媒体', password: '123' },
+        { uid: 127, username: '666', password: '666' },
         { uid: 125, username: '1', password: '123' }
     ],
     chatroomInfoItems: [
