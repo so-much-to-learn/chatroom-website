@@ -39,6 +39,7 @@ const Login: React.FC<RouteComponentProps> = observer((props) => {
         window.localStorage.setItem(UsernameLocalKey, username)
         store.userLogin({ username, password })
             .then(() => history.push('/'))
+            .catch(err => console.error('Error: 登录出错 ', err))
     }
 
     const onTabsChange = (activeKey: string) => {

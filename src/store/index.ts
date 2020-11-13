@@ -62,6 +62,7 @@ class AppStore {
     @action
     resetUserInfo(): void {
         this.userInfo = { uid: null, username: null }
+        sessionStorage.removeItem(USER_INFO)
     }
 
     // 切换群

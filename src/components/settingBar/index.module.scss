@@ -5,5 +5,29 @@
   flex-basis: 68px;
   width: 68px;
   flex-grow: 0;
+  padding-top: 10px;
   flex-shrink: 0;
+
+  :global .top-btns {
+    @include flexbox(row, center);
+
+    .top-btn {
+      width: 12px;
+      height: 12px;
+      display: inline-block;
+      border-radius: 50%;
+      background-color: $red;
+      cursor: pointer;
+      margin-right: 7px;
+
+      &:nth-of-type(2) {
+        background-color: $orange;
+      }
+
+      &:nth-of-type(3) {
+        background-color: $green;
+        margin-right: 0;
+      }
+    }
+  }
 }

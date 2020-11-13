@@ -10,19 +10,20 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const Api = require('./api')
 
 // 允许跨域
-app.all('*', function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+app.all('*', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
     // res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, Client-Type");
-    next();
+    next()
 })
-
 
 app.post('/login', (req, res) => {
     res.json(Api.login(req))
 })
-
+app.post('/regist', (req, res) => {
+    res.json(Api.regist(req))
+})
 
 app.get('/chatroom/info-list', (req, res) => {
     res.json(Api.chatroomInfoList(req))
@@ -33,7 +34,7 @@ let onlineCount = 0      // 在线用户人数
 
 io.on('connection', socket => {
     socket.on('login', obj => {
-        console.log(obj)
+        console.log(obj, ' - login')
         socket.id = obj.uid   // 用户id设为socketid
 
         // 如果没有这个用户，那么在线人数+1，将其添加进在线用户
