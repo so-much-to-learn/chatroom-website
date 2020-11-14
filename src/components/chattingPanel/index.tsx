@@ -8,7 +8,7 @@ const ChattingPanel: React.FC = () => {
     const chattingPanelDom = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        chattingPanelDom.current?.lastElementChild?.scrollIntoView({ behavior: 'smooth' })
+        chattingPanelDom.current?.lastElementChild?.scrollIntoView()
     })
 
     return (

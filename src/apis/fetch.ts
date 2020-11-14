@@ -2,8 +2,10 @@ import axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios'
 import { CustomAxiosInstance } from 'typings/shims'
 import { BaseURL } from 'constants/server'
 import { message as Message } from 'antd'
-import { useHistory } from 'react-router'
+import { createHashHistory } from 'history'
 import store from 'store'
+
+const history = createHashHistory()
 
 const service: CustomAxiosInstance = axios.create({
     baseURL: BaseURL,
@@ -31,7 +33,6 @@ service.interceptors.response.use(
             Message.error('Error in fetch.js respone interceptors:  ' + message)
             if (code === 40001) {             // token失效等需要重新登录的情况
                 store.resetUserInfo()
-                const history = useHistory()
                 history.push('/login')
             }
             return Promise.reject(new Error(message))

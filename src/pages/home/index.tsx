@@ -12,9 +12,9 @@ import { USER_SEND_MESSAGE_RES } from 'constants/browser'
 
 const Home: React.FC = (props) => {
     const soundRef = createRef<HTMLAudioElement>()
+    const history = useHistory()
 
     if (!store.userInfo?.uid) {
-        const history = useHistory()
         history.push('/login')
     }
 

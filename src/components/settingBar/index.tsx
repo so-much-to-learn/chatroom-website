@@ -5,9 +5,10 @@ import { useHistory } from 'react-router'
 import store from 'store'
 
 const SettingBar: React.FC = (props) => {
+    const history = useHistory()
+
     const handleLogout = () => {
         store.resetUserInfo()
-        const history = useHistory()
         history.push('/login')
     }
 
