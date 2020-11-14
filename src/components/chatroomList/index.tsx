@@ -23,7 +23,7 @@ const ChatroomList: React.FC = () => {
 }
 
 const ChatroomItem: React.FC<IChatroomNameItem> = observer((props) => {
-    const { name, recentMessage, id } = props
+    const { name, recentMessage, id, recentMessageUsername } = props
 
     const handleChangeChatroom = () => {
         store.changeChatroom(id)
@@ -36,7 +36,7 @@ const ChatroomItem: React.FC<IChatroomNameItem> = observer((props) => {
                 { name }
             </div>
             <div className={ styles.content }>
-                { recentMessage }
+                { recentMessageUsername }： { recentMessage }
             </div>
         </div>
     )

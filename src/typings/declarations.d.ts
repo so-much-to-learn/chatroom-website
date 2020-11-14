@@ -36,7 +36,8 @@ declare interface IChatroomNameItem {
     id: number,
     name: string,
     // 最近消息
-    recentMessage: string,
+    recentMessage: string | null,
+    recentMessageUsername: string | null,
 }
 
 // 请求消息体

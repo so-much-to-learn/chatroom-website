@@ -1,12 +1,15 @@
-import React, { createRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import styles from 'components/chattingPanel/index.module.scss'
 import store from 'store'
 import { observer } from 'mobx-react'
 import { USER_SEND_MESSAGE_RES } from 'constants/browser'
 
 const ChattingPanel: React.FC = () => {
-    const chattingPanelDom = createRef<HTMLDivElement>()
-    store.socket.on(USER_SEND_MESSAGE_RES, () => console.log('滚动'))
+    const chattingPanelDom = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        chattingPanelDom.current?.lastElementChild?.scrollIntoView({ behavior: 'smooth' })
+    })
 
     return (
         <div className={ styles.container }

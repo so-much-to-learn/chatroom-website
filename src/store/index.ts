@@ -42,11 +42,15 @@ class AppStore {
     // 计算属性： 获取左侧群列表信息
     @computed
     get chatroomNameList(): IChatroomNameItem[] {
-        return this.chatroomInfoList.map(T => ({
-            id: T.id,
-            name: T.name,
-            recentMessage: T.messageList.slice(-1)[0]?.message
-        }))
+        return this.chatroomInfoList.map(T => {
+            const lastMessage = T.messageList.slice(-1)[0]
+            return ({
+                id: T.id,
+                name: T.name,
+                recentMessage: lastMessage?.message,
+                recentMessageUsername: lastMessage?.username
+            })
+        })
     }
 
     // 用户在群组发送消息
