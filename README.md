@@ -4,6 +4,10 @@
 
 [代码](https://sherlocked93.github.io/chatroom-website)
 
+分支：
+1. master: 使用mobx
+2. local: 为了更好锻炼hooks技能，使用useReducer+useContext重构
+
 前端： typescript@4 + react@17 + react-router@5 + css-modules + scss + mobx@5 + antd@4
 服务端： express@4 + socket.io
 
