@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import moment from 'moment'
-import { ConfigProvider } from 'antd'
+import { ContextProvider } from './context/index'
 
 import 'antd/dist/antd.css'
 import './index.css'
@@ -12,8 +12,8 @@ import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 
 ReactDOM.render(
-  <ConfigProvider locale={ zhCN }>
-    <App/>
-  </ConfigProvider>,
-  document.getElementById('root')
+    <ContextProvider>
+        <App/>
+    </ContextProvider>,
+    document.getElementById('root')
 )
