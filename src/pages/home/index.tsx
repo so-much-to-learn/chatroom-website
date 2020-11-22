@@ -1,4 +1,4 @@
-import React, { Component, createRef, useContext, useEffect } from 'react'
+import React, { Component, useRef, useContext, useEffect } from 'react'
 import SettingBar from 'components/settingBar/index'
 import ChatroomList from 'components/chatroomList'
 import GroupInfo from 'components/groupInfo'
@@ -11,14 +11,18 @@ import { Context, ACTIONS } from 'context/index'
 
 const Home: React.FC = (props) => {
     const { state } = useContext(Context)
-    const soundRef = createRef<HTMLAudioElement>()
+    const soundRef = useRef<HTMLAudioElement>(null)
     const history = useHistory()
 
     if (!state.userInfo?.uid) {
         history.push('/login')
     }
 
-    state.socket.on(USER_SEND_MESSAGE_RES, () => soundRef.current?.play())
+    useEffect(() => {
+        state.socket.on(USER_SEND_MESSAGE_RES, () => {
+            soundRef.current?.play()
+        })
+    }, [])
 
     return (
         <div className={ styles.home }>
