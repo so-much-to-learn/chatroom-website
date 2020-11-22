@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { observer } from 'mobx-react'
 import styles from './index.module.scss'
-import store from 'store'
+import { ACTIONS, Context } from 'context/index'
+import * as Api from '~/apis'
 
 const ChatroomList: React.FC = () => {
+    const { state, dispatch } = useContext(Context)
+
     useEffect(() => {
-        store.getChatroomInfoList()
-            .then(chatroomInfoList => chatroomInfoList.length &&
-                store.changeChatroom(chatroomInfoList[0].id))
+        Api.chatroomInfoList()
+            .then((chatroomInfoList) => {
+                dispatch({ type: ACTIONS.CHATROOM_INFO_LIST, payload: { chatroomInfoList } })
+                chatroomInfoList.length &&
+                dispatch({ type: ACTIONS.CHANGE_CHATROOM, payload: { chatroomId: chatroomInfoList[0].id } })
+            })
     }, [])
 
     return (
         <div className={ styles.container }>
-            { store.chatroomNameList.length
-                ? store.chatroomNameList
+            { state.chatroomNameList.length
+                ? state.chatroomNameList
                     .map((chatroomObj: IChatroomNameItem) =>
                         <ChatroomItem { ...chatroomObj } key={ chatroomObj.id }/>)
                 : '正在请求房间列表'
@@ -24,13 +30,14 @@ const ChatroomList: React.FC = () => {
 
 const ChatroomItem: React.FC<IChatroomNameItem> = observer((props) => {
     const { name, recentMessage, id, recentMessageUsername } = props
+    const { state, dispatch } = useContext(Context)
 
     const handleChangeChatroom = () => {
-        store.changeChatroom(id)
+        dispatch({ type: ACTIONS.CHANGE_CHATROOM, payload: { chatroomId: id } })
     }
 
     return (
-        <div className={ `${ styles.chatroomItem } ${ id === store.currentChatroom?.id ? styles['is-active'] : '' }` }
+        <div className={ `${ styles.chatroomItem } ${ id === state.currentChatroom?.id ? styles['is-active'] : '' }` }
              onClick={ handleChangeChatroom }>
             <div className={ styles.header }>
                 { name }

@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useReducer } from 'react'
 import { action, computed, observable } from 'mobx'
 import * as Api from 'apis'
-import { USER_INFO, USER_SEND_MESSAGE, USER_SEND_MESSAGE_RES } from 'constants/browser'
+import { USER_INFO, USER_SEND_MESSAGE } from 'constants/browser'
 import { io, Socket } from 'socket.io-client'
 import { BaseURL } from 'constants/server'
 
 interface IAction {
     type: string
-    payload: any    // todo: 完善payload类型
+    payload?: any    // todo: 完善payload类型
 }
 
 declare interface IContextType {
@@ -18,7 +18,7 @@ declare interface IContextType {
     currentChatroom: IChatroomInfoItem | null,
 }
 
-type  MyCreateContext = IContextType & { chatroomNameListMemo: IChatroomNameItem[] }
+type MyCreateContext = IContextType & { chatroomNameListMemo?: IChatroomNameItem[] }
 
 const initContextValue: IContextType = {
     chatroomNameList: [],
@@ -31,22 +31,43 @@ const initContextValue: IContextType = {
     socket: io(BaseURL, { transports: ['websocket', 'xhr-polling', 'jsonp-polling'] })
 }
 
-const Context = React.createContext<{ state: MyCreateContext, dispatch: React.Dispatch<IAction> } | null>(null)
+// todo 这里一定要传么？
+// @ts-ignore
+const Context = React.createContext<{ state: MyCreateContext, dispatch: React.Dispatch<IAction> }>(null)
 
-const reducer: React.Reducer<IContextType, IAction> = (state: IContextType, action: IAction) => {
-    console.log(state, action)
+// Actions
+const RESET_USER_INFO = 'RESET_USER_INFO'
+const CHANGE_CHATROOM = 'CHANGE_CHATROOM'
+const CHATROOM_INFO_LIST = 'CHATROOM_INFO_LIST'
+const USER_LOGIN = 'USER_LOGIN'
+const USER_SEND_MESSAGE_RES = 'USER_SEND_MESSAGE_RES'
+const HIDE_LYRIC = 'HIDE_LYRIC'
+const ADD_MESSAGE = 'ADD_MESSAGE'
+
+const ACTIONS = {
+    RESET_USER_INFO,
+    CHANGE_CHATROOM,
+    CHATROOM_INFO_LIST,
+    USER_LOGIN,
+    USER_SEND_MESSAGE_RES,
+    HIDE_LYRIC,
+    ADD_MESSAGE
+}
+
+const reducer: React.Reducer<IContextType, IAction> = (state: IContextType, action: IAction): MyCreateContext => {
+    console.log('reducer: ', state, action)
     switch (action.type) {
-        case 'RESET_USER_INFO':
+        case ACTIONS.RESET_USER_INFO:
             return { ...state, ...resetUserInfo() }
-        case 'CHANGE_CHATROOM':
+        case ACTIONS.CHANGE_CHATROOM:
             return { ...state, ...changeChatroom(action.payload, state) }
-        case 'GET_CHATROOM_INFO_LIST':
-            return { ...state, ...getChatroomInfoList() }
-        case 'USER_LOGIN':
-            return { ...state, ...userLogin(action.payload) }
-        case  USER_SEND_MESSAGE_RES:
+        case ACTIONS.CHATROOM_INFO_LIST:
             return { ...state, ...action.payload }
-        case 'ADD_MESSAGE':
+        case ACTIONS.USER_LOGIN:
+            return { ...state, ...userLogin(action.payload) }
+        case  ACTIONS.USER_SEND_MESSAGE_RES:
+            return { ...state, ...action.payload }
+        case ACTIONS.ADD_MESSAGE:
             addMessage(action.payload, state)
         // eslint-disable-next-line no-fallthrough
         default:
@@ -101,7 +122,7 @@ const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
     }, [])
 
     // 计算属性： 获取左侧群列表信息
-    const chatroomNameListMemo: IChatroomNameItem[] = useMemo(() => state.chatroomInfoList.map(T => {
+    const chatroomNameListMemo: IChatroomNameItem[] = useMemo(() => state.chatroomInfoList?.map(T => {
         const lastMessage = T.messageList.slice(-1)[0]
         return ({
             id: T.id,
@@ -110,8 +131,9 @@ const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
             recentMessageUsername: lastMessage?.username
         })
     }), [state.chatroomInfoList])
+    console.log('chatroomNameListMemo:', chatroomNameListMemo)
     return <Context.Provider value={ { state: { ...state, chatroomNameListMemo }, dispatch } }>
         { props.children }</Context.Provider>
 }
 
-export { Context, ContextProvider }
+export { Context, ContextProvider, ACTIONS }
