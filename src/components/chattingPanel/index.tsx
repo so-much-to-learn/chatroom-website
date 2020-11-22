@@ -4,12 +4,12 @@ import { USER_SEND_MESSAGE_RES } from 'constants/browser'
 import { Context, ACTIONS } from 'context/index'
 
 const ChattingPanel: React.FC = () => {
-    const { state, dispatch } = useContext(Context)
+    const {state, dispatch} = useContext(Context)
     const chattingPanelDom = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         chattingPanelDom.current?.lastElementChild?.scrollIntoView()
-    }, [state.chatroomNameListMemo])
+    })
 
     return (
         <div className={ styles.container }
@@ -22,8 +22,8 @@ const ChattingPanel: React.FC = () => {
 }
 
 const Message: React.FC<IMessageItem> = (props) => {
-    const { state, dispatch } = useContext(Context)
-    const { uid, username, message } = props
+    const {state, dispatch} = useContext(Context)
+    const {uid, username, message} = props
 
     return (
         <div className={ uid === state.userInfo.uid ? 'message-item is-me' : 'message-item' }>

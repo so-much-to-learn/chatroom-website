@@ -47,7 +47,7 @@ const ACTIONS = {
 }
 
 const reducer: React.Reducer<IContextType, IAction> = (state: IContextType, action: IAction): MyCreateContext => {
-    console.log('reducer: ', state, action)
+    // console.log('reducer: ', state, action)
     switch (action.type) {
         case ACTIONS.RESET_USER_INFO:
             return { ...state, ...resetUserInfo() }
@@ -97,21 +97,25 @@ const initContextValueFunc = (initContextValue: IContextType) => {
 const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
     const [state, dispatch] = useReducer(reducer, initContextValue, initContextValueFunc)
     const chatroomInfoListRef = useRef(state.chatroomInfoList)
+    const currentChatroomRef = useRef(state.currentChatroom)
 
     useEffect(() => {
         chatroomInfoListRef.current = state.chatroomInfoList
+        currentChatroomRef.current = state.currentChatroom
     }, [state.chatroomInfoList])
 
     // socket 订阅消息
     useEffect(() => {
         state.socket.on(USER_SEND_MESSAGE_RES, ({ chatroomId, newMessage }: { chatroomId: number, newMessage: IMessageItem }) => {
             const chatroom = chatroomInfoListRef.current.find(chatroom => chatroom.id === chatroomId)
-            if (!chatroom) return
+            if (!chatroom || !currentChatroomRef.current) return
             const otherChatroomList = Utils.removeItemInArray<IChatroomInfoItem>(chatroomInfoListRef.current, chatroom)
             const newChatroomInfo = { ...chatroom, messageList: [...chatroom!.messageList, newMessage] }
             dispatch({
                 type: ACTIONS.CHATROOM_INFO_LIST,
-                payload: { chatroomInfoList: [newChatroomInfo, ...otherChatroomList] }
+                payload: currentChatroomRef.current.id === chatroomId
+                    ? { chatroomInfoList: [newChatroomInfo, ...otherChatroomList], currentChatroom: newChatroomInfo }
+                    : { chatroomInfoList: [newChatroomInfo, ...otherChatroomList] }
             })
         })
         Api.chatroomInfoList()
