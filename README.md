@@ -19,8 +19,11 @@
 
 ## 收获
 
-1. axios 更改返回值类型 /src/typings/shims.d.ts
-2. 使用 useEffect 进行query的时候出现一直不停执行query，给个空的依赖数组就可以了，是因为 useEffect 触发了组件更新，重新执行 useEffect 所以不停执行 query
+1. [x] axios 更改返回值类型 /src/typings/shims.d.ts
+2. [x] 使用 useEffect 进行query的时候出现一直不停执行query，给个空的依赖数组就可以了，是因为 useEffect 触发了组件更新，重新执行 useEffect 所以不停执行 query
+3. [x] 在useEffect中如何访问最新的state
+4. [ ] 如何避免使用 useContext 时候发生不相关组件的更新
+5. [ ] 非组件中可以访问 context 中的内容么，比如 context 中 useReducer 的 dispatch
 
 ## 运行
 

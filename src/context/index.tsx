@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useReducer } from 'react'
-import { action, computed, observable } from 'mobx'
 import * as Api from 'apis'
-import { USER_INFO, USER_SEND_MESSAGE } from 'constants/browser'
+import { USER_INFO, USER_SEND_MESSAGE, USER_SEND_MESSAGE_RES } from 'constants/browser'
 import { io, Socket } from 'socket.io-client'
 import { BaseURL } from 'constants/server'
 
@@ -12,7 +11,6 @@ interface IAction {
 
 declare interface IContextType {
     socket: Socket,
-    chatroomNameList: IChatroomNameItem[],
     userInfo: userInfo,
     chatroomInfoList: IChatroomInfoItem[],
     currentChatroom: IChatroomInfoItem | null,
@@ -21,7 +19,6 @@ declare interface IContextType {
 type MyCreateContext = IContextType & { chatroomNameListMemo?: IChatroomNameItem[] }
 
 const initContextValue: IContextType = {
-    chatroomNameList: [],
     chatroomInfoList: [],
     currentChatroom: null,
     userInfo: {
@@ -40,18 +37,16 @@ const RESET_USER_INFO = 'RESET_USER_INFO'
 const CHANGE_CHATROOM = 'CHANGE_CHATROOM'
 const CHATROOM_INFO_LIST = 'CHATROOM_INFO_LIST'
 const USER_LOGIN = 'USER_LOGIN'
-const USER_SEND_MESSAGE_RES = 'USER_SEND_MESSAGE_RES'
 const HIDE_LYRIC = 'HIDE_LYRIC'
-const ADD_MESSAGE = 'ADD_MESSAGE'
+const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE'
 
 const ACTIONS = {
     RESET_USER_INFO,
     CHANGE_CHATROOM,
     CHATROOM_INFO_LIST,
     USER_LOGIN,
-    USER_SEND_MESSAGE_RES,
     HIDE_LYRIC,
-    ADD_MESSAGE
+    RECEIVE_MESSAGE
 }
 
 const reducer: React.Reducer<IContextType, IAction> = (state: IContextType, action: IAction): MyCreateContext => {
@@ -60,16 +55,21 @@ const reducer: React.Reducer<IContextType, IAction> = (state: IContextType, acti
         case ACTIONS.RESET_USER_INFO:
             return { ...state, ...resetUserInfo() }
         case ACTIONS.CHANGE_CHATROOM:
+            console.log(' ---- ----- ACTIONS.CHANGE_CHATROOM', action.payload)
             return { ...state, ...changeChatroom(action.payload, state) }
-        case ACTIONS.CHATROOM_INFO_LIST:
-            return { ...state, ...action.payload }
-        case ACTIONS.USER_LOGIN:
-            return { ...state, ...userLogin(action.payload) }
-        case  ACTIONS.USER_SEND_MESSAGE_RES:
-            return { ...state, ...action.payload }
-        case ACTIONS.ADD_MESSAGE:
-            addMessage(action.payload, state)
-        // eslint-disable-next-line no-fallthrough
+        case ACTIONS.CHATROOM_INFO_LIST: {
+            const { chatroomInfoList } = action.payload
+            return { ...state, chatroomInfoList }
+        }
+        case ACTIONS.USER_LOGIN: {
+            const { userInfo } = action.payload
+            userInfo && sessionStorage.setItem(USER_INFO, JSON.stringify(userInfo))
+            return { ...state, userInfo }
+        }
+        case ACTIONS.RECEIVE_MESSAGE: {
+            const { chatroomInfoList } = action.payload
+            return { ...state, chatroomInfoList }
+        }
         default:
             return state
     }
@@ -82,20 +82,13 @@ const resetUserInfo = (): { userInfo: userInfo } => {
 }
 
 // 用户在群组发送消息
-const addMessage = ({ chatroomId, messageObj }: { chatroomId: number, messageObj: IMessageItemRequest }, state: IContextType): void => {
-    state.socket.emit(USER_SEND_MESSAGE, { chatroomId, messageObj })
-}
+// const addMessage = ({ chatroomId, messageObj }: { chatroomId: number, messageObj: IMessageItemRequest }, state: IContextType): void => {
+//     state.socket.emit(USER_SEND_MESSAGE, { chatroomId, messageObj })
+// }
 
 // 获取群list信息
 const getChatroomInfoList = async(): Promise<{ chatroomInfoList: IChatroomInfoItem[] }> => {
     return { chatroomInfoList: await Api.chatroomInfoList() }
-}
-
-// 用户登录
-const userLogin = async({ username, password }: loginQuery = {}): Promise<{ userInfo: userInfo }> => {
-    const userInfo = await Api.userLogin({ username, password })
-    userInfo && sessionStorage.setItem(USER_INFO, JSON.stringify(userInfo))
-    return { userInfo }
 }
 
 // 切换群
@@ -104,21 +97,28 @@ const changeChatroom = ({ chatroomId }: { chatroomId: number }, state: IContextT
 }
 
 // 获取保存在sessionStorage中的用户信息，刷新页面的时候不需要重新登录
-const initUserInfo = (initContextValue: IContextType) => {
-    console.log({ initContextValue }, '  in initUserInfo!')
-    const value = sessionStorage.getItem(USER_INFO)
-    return { ...initContextValue, userInfo: value ? JSON.parse(value) : value }
+const initContextValueFunc = (initContextValue: IContextType) => {
+    const sessUserInfo = sessionStorage.getItem(USER_INFO)
+    const userInfo = sessUserInfo ? JSON.parse(sessUserInfo) : sessUserInfo
+    return { ...initContextValue, userInfo }
 }
 
 const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
-    const [state, dispatch] = useReducer(reducer, initContextValue, initUserInfo)
+    const [state, dispatch] = useReducer(reducer, initContextValue, initContextValueFunc)
+
+    // socket 订阅消息
     useEffect(() => {
         state.socket.on(USER_SEND_MESSAGE_RES, ({ chatroomId, newMessage }: { chatroomId: number, newMessage: IMessageItem }) => {
+            console.log('  ACTIONS.  RECEIVE_MESSAGE ')
             dispatch({
-                type: USER_SEND_MESSAGE_RES,
+                type: ACTIONS.RECEIVE_MESSAGE,
                 payload: { chatroomInfoList: state.chatroomInfoList.find(chatroom => chatroom.id === chatroomId)?.messageList.push(newMessage) }
             })
         })
+        Api.chatroomInfoList()
+            .then((chatroomInfoList) => {
+                dispatch({ type: ACTIONS.CHATROOM_INFO_LIST, payload: { chatroomInfoList } })
+            })
     }, [])
 
     // 计算属性： 获取左侧群列表信息
@@ -131,7 +131,7 @@ const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
             recentMessageUsername: lastMessage?.username
         })
     }), [state.chatroomInfoList])
-    console.log('chatroomNameListMemo:', chatroomNameListMemo)
+    console.log({ chatroomNameListMemo })
     return <Context.Provider value={ { state: { ...state, chatroomNameListMemo }, dispatch } }>
         { props.children }</Context.Provider>
 }

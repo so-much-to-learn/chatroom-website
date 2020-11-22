@@ -1,10 +1,9 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext, useEffect } from 'react'
 import styles from './index.module.scss'
-import { observer } from 'mobx-react'
 import { Form, Input, Button, Tabs, Checkbox, message } from 'antd'
 import * as Api from 'apis'
-import store from 'store'
 import { RouteComponentProps } from 'react-router'
+import { Context, ACTIONS } from 'context/index'
 
 const { TabPane } = Tabs
 
@@ -22,8 +21,9 @@ interface registFormData {
     passwordConfirm: string
 }
 
-const Login: React.FC<RouteComponentProps> = observer((props) => {
+const Login: React.FC<RouteComponentProps> = (props) => {
     const { history } = props
+    const { state, dispatch } = useContext(Context)
     const [loginForm] = Form.useForm()
     const [registForm] = Form.useForm()
     const [activeKey, setActiveKey] = useState('login')
@@ -33,12 +33,19 @@ const Login: React.FC<RouteComponentProps> = observer((props) => {
     const onLoginFormReset = () => loginForm.resetFields()
     const onRegistFormReset = () => registForm.resetFields()
 
+    useEffect(() => {
+        dispatch({ type: ACTIONS.RESET_USER_INFO })
+    }, [])
+
     const onLogin = (formData: loginFormData) => {
         const { remember, username, password } = formData
         remember &&
         window.localStorage.setItem(UsernameLocalKey, username)
-        store.userLogin({ username, password })
-            .then(() => history.push('/'))
+        Api.userLogin({ username, password })
+            .then((userInfo) => {
+                dispatch({ type: ACTIONS.USER_LOGIN, payload: { userInfo } })
+                history.push('/')
+            })
             .catch(err => console.error('Error: 登录出错 ', err))
     }
 
@@ -152,6 +159,6 @@ const Login: React.FC<RouteComponentProps> = observer((props) => {
             </Tabs>
         </div>
     )
-})
+}
 
 export default Login

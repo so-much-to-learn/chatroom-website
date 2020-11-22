@@ -1,14 +1,15 @@
-import React from 'react'
-import { observer } from 'mobx-react'
+import React, { useContext } from 'react'
 import styles from './index.module.scss'
-import store from 'store'
+import { Context, ACTIONS } from 'context/index'
 
-const GroupInfo: React.FC = observer((props) => {
+const GroupInfo: React.FC = (props) => {
+    const { state, dispatch } = useContext(Context)
+
     return (
         <div className={ styles.container }>
-            { store.currentChatroom?.name }
+            { state.currentChatroom?.name }
         </div>
     )
-})
+}
 
 export default GroupInfo

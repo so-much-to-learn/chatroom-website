@@ -6,6 +6,7 @@ import ChattingPanel from 'components/chattingPanel'
 import TypewritingPanel from 'components/typewritingPanel'
 import { useHistory } from 'react-router'
 import styles from './index.module.scss'
+import { USER_SEND_MESSAGE_RES } from 'constants/browser'
 import { Context, ACTIONS } from 'context/index'
 
 const Home: React.FC = (props) => {
@@ -17,7 +18,7 @@ const Home: React.FC = (props) => {
         history.push('/login')
     }
 
-    state.socket.on(ACTIONS.USER_SEND_MESSAGE_RES, () => soundRef.current?.play())
+    state.socket.on(USER_SEND_MESSAGE_RES, () => soundRef.current?.play())
 
     return (
         <div className={ styles.home }>
@@ -27,11 +28,13 @@ const Home: React.FC = (props) => {
             <div className={ styles.container }>
                 <SettingBar/>
                 <ChatroomList/>
-                <div className={ styles.room }>
-                    <GroupInfo/>
-                    <ChattingPanel/>
-                    <TypewritingPanel/>
-                </div>
+                { state.currentChatroom
+                    ? <div className={ styles.room }>
+                        <GroupInfo/>
+                        <ChattingPanel/>
+                        <TypewritingPanel/>
+                    </div>
+                    : <div/> }
             </div>
         </div>
     )

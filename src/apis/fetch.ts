@@ -3,7 +3,6 @@ import { CustomAxiosInstance } from 'typings/shims'
 import { BaseURL } from 'constants/server'
 import { message as Message } from 'antd'
 import { createHashHistory } from 'history'
-import store from 'store'
 
 const history = createHashHistory()
 
@@ -32,7 +31,6 @@ service.interceptors.response.use(
         if (![20000].includes(code)) {        // code为非20000或20001是抛错
             Message.error('Error in fetch.js respone interceptors:  ' + message)
             if (code === 40001) {             // token失效等需要重新登录的情况
-                store.resetUserInfo()
                 history.push('/login')
             }
             return Promise.reject(new Error(message))

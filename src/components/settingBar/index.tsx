@@ -1,14 +1,14 @@
-import React from 'react'
-import { observer } from 'mobx-react'
+import React, { useContext } from 'react'
 import styles from './index.module.scss'
 import { useHistory } from 'react-router'
-import store from 'store'
+import { Context, ACTIONS } from 'context/index'
 
 const SettingBar: React.FC = (props) => {
     const history = useHistory()
+    const { state, dispatch } = useContext(Context)
 
     const handleLogout = () => {
-        store.resetUserInfo()
+        dispatch({ type: ACTIONS.RESET_USER_INFO })
         history.push('/login')
     }
 
@@ -23,4 +23,4 @@ const SettingBar: React.FC = (props) => {
     )
 }
 
-export default observer(SettingBar)
+export default SettingBar

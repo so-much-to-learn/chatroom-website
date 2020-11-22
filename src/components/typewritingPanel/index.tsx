@@ -1,20 +1,23 @@
-import React, { useEffect, useMemo } from 'react'
-import { inject, observer } from 'mobx-react'
+import React, { useEffect, useMemo, useContext } from 'react'
 import styles from './index.module.scss'
 import { Form, Input, Button } from 'antd'
-import store from 'store'
+import { Context, ACTIONS } from 'context/index'
+import { USER_SEND_MESSAGE } from 'constants/browser'
 
-const TypewritingPanel: React.FC = observer((props) => {
-    const { userInfo, currentChatroom } = store
+const TypewritingPanel: React.FC = (props) => {
+    const { state, dispatch } = useContext(Context)
     const [form] = Form.useForm()
 
     useEffect(() => {
         form.resetFields()
-    }, [currentChatroom?.id])
+    }, [state.currentChatroom])
 
     const onFinish = ({ message }: { message: string }) => {
-        if (!message || !currentChatroom) return
-        store.addMessage(currentChatroom.id, { ...userInfo, message })
+        console.log('???', state.currentChatroom)
+        state.socket.emit(USER_SEND_MESSAGE, {
+            chatroomId: state.currentChatroom!.id,
+            messageObj: { ...state.userInfo, message }
+        })
         form.resetFields()
     }
 
@@ -37,6 +40,6 @@ const TypewritingPanel: React.FC = observer((props) => {
             </Form>
         </div>
     )
-})
+}
 
 export default TypewritingPanel

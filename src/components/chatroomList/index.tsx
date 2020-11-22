@@ -1,25 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { observer } from 'mobx-react'
 import styles from './index.module.scss'
 import { ACTIONS, Context } from 'context/index'
-import * as Api from '~/apis'
+import * as Api from 'apis'
 
 const ChatroomList: React.FC = () => {
     const { state, dispatch } = useContext(Context)
 
-    useEffect(() => {
-        Api.chatroomInfoList()
-            .then((chatroomInfoList) => {
-                dispatch({ type: ACTIONS.CHATROOM_INFO_LIST, payload: { chatroomInfoList } })
-                chatroomInfoList.length &&
-                dispatch({ type: ACTIONS.CHANGE_CHATROOM, payload: { chatroomId: chatroomInfoList[0].id } })
-            })
-    }, [])
-
     return (
         <div className={ styles.container }>
-            { state.chatroomNameList.length
-                ? state.chatroomNameList
+            { state.chatroomNameListMemo?.length
+                ? state.chatroomNameListMemo
                     .map((chatroomObj: IChatroomNameItem) =>
                         <ChatroomItem { ...chatroomObj } key={ chatroomObj.id }/>)
                 : '正在请求房间列表'
@@ -28,7 +18,7 @@ const ChatroomList: React.FC = () => {
     )
 }
 
-const ChatroomItem: React.FC<IChatroomNameItem> = observer((props) => {
+const ChatroomItem: React.FC<IChatroomNameItem> = (props) => {
     const { name, recentMessage, id, recentMessageUsername } = props
     const { state, dispatch } = useContext(Context)
 
@@ -47,6 +37,6 @@ const ChatroomItem: React.FC<IChatroomNameItem> = observer((props) => {
             </div>
         </div>
     )
-})
+}
 
-export default observer(ChatroomList)
+export default ChatroomList
