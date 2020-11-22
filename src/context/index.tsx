@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useReducer } from 'react'
+import React, { useEffect, useMemo, useReducer, useRef } from 'react'
 import * as Api from 'apis'
 import { USER_INFO, USER_SEND_MESSAGE, USER_SEND_MESSAGE_RES } from 'constants/browser'
 import { io, Socket } from 'socket.io-client'
 import { BaseURL } from 'constants/server'
+import * as Utils from 'utils'
 
 interface IAction {
     type: string
@@ -37,16 +38,12 @@ const RESET_USER_INFO = 'RESET_USER_INFO'
 const CHANGE_CHATROOM = 'CHANGE_CHATROOM'
 const CHATROOM_INFO_LIST = 'CHATROOM_INFO_LIST'
 const USER_LOGIN = 'USER_LOGIN'
-const HIDE_LYRIC = 'HIDE_LYRIC'
-const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE'
 
 const ACTIONS = {
     RESET_USER_INFO,
     CHANGE_CHATROOM,
     CHATROOM_INFO_LIST,
-    USER_LOGIN,
-    HIDE_LYRIC,
-    RECEIVE_MESSAGE
+    USER_LOGIN
 }
 
 const reducer: React.Reducer<IContextType, IAction> = (state: IContextType, action: IAction): MyCreateContext => {
@@ -55,20 +52,14 @@ const reducer: React.Reducer<IContextType, IAction> = (state: IContextType, acti
         case ACTIONS.RESET_USER_INFO:
             return { ...state, ...resetUserInfo() }
         case ACTIONS.CHANGE_CHATROOM:
-            console.log(' ---- ----- ACTIONS.CHANGE_CHATROOM', action.payload)
             return { ...state, ...changeChatroom(action.payload, state) }
         case ACTIONS.CHATROOM_INFO_LIST: {
-            const { chatroomInfoList } = action.payload
-            return { ...state, chatroomInfoList }
+            return { ...state, ...action.payload }
         }
         case ACTIONS.USER_LOGIN: {
             const { userInfo } = action.payload
             userInfo && sessionStorage.setItem(USER_INFO, JSON.stringify(userInfo))
             return { ...state, userInfo }
-        }
-        case ACTIONS.RECEIVE_MESSAGE: {
-            const { chatroomInfoList } = action.payload
-            return { ...state, chatroomInfoList }
         }
         default:
             return state
@@ -105,19 +96,30 @@ const initContextValueFunc = (initContextValue: IContextType) => {
 
 const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
     const [state, dispatch] = useReducer(reducer, initContextValue, initContextValueFunc)
+    const chatroomInfoListRef = useRef(state.chatroomInfoList)
+
+    useEffect(() => {
+        chatroomInfoListRef.current = state.chatroomInfoList
+    }, [state.chatroomInfoList])
 
     // socket 订阅消息
     useEffect(() => {
         state.socket.on(USER_SEND_MESSAGE_RES, ({ chatroomId, newMessage }: { chatroomId: number, newMessage: IMessageItem }) => {
-            console.log('  ACTIONS.  RECEIVE_MESSAGE ')
+            const chatroom = chatroomInfoListRef.current.find(chatroom => chatroom.id === chatroomId)
+            if (!chatroom) return
+            const otherChatroomList = Utils.removeItemInArray<IChatroomInfoItem>(chatroomInfoListRef.current, chatroom)
+            const newChatroomInfo = { ...chatroom, messageList: [...chatroom!.messageList, newMessage] }
             dispatch({
-                type: ACTIONS.RECEIVE_MESSAGE,
-                payload: { chatroomInfoList: state.chatroomInfoList.find(chatroom => chatroom.id === chatroomId)?.messageList.push(newMessage) }
+                type: ACTIONS.CHATROOM_INFO_LIST,
+                payload: { chatroomInfoList: [newChatroomInfo, ...otherChatroomList] }
             })
         })
         Api.chatroomInfoList()
             .then((chatroomInfoList) => {
-                dispatch({ type: ACTIONS.CHATROOM_INFO_LIST, payload: { chatroomInfoList } })
+                dispatch({
+                    type: ACTIONS.CHATROOM_INFO_LIST,
+                    payload: { chatroomInfoList, currentChatroom: chatroomInfoList.length ? chatroomInfoList[0] : null }
+                })
             })
     }, [])
 
@@ -131,7 +133,6 @@ const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
             recentMessageUsername: lastMessage?.username
         })
     }), [state.chatroomInfoList])
-    console.log({ chatroomNameListMemo })
     return <Context.Provider value={ { state: { ...state, chatroomNameListMemo }, dispatch } }>
         { props.children }</Context.Provider>
 }

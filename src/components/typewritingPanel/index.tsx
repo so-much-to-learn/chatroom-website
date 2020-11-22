@@ -13,7 +13,6 @@ const TypewritingPanel: React.FC = (props) => {
     }, [state.currentChatroom])
 
     const onFinish = ({ message }: { message: string }) => {
-        console.log('???', state.currentChatroom)
         state.socket.emit(USER_SEND_MESSAGE, {
             chatroomId: state.currentChatroom!.id,
             messageObj: { ...state.userInfo, message }
