@@ -8,6 +8,11 @@ declare module '*.scss' {
     export = content;
 }
 
+declare interface IAction {
+    type: string
+    payload?: any    // todo: 完善payload类型
+}
+
 // 聊天室信息对象
 declare interface IChatroomInfoItem {
     id: number,

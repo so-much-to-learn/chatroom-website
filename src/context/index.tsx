@@ -5,11 +5,6 @@ import { io, Socket } from 'socket.io-client'
 import { BaseURL } from 'constants/server'
 import * as Utils from 'utils'
 
-interface IAction {
-    type: string
-    payload?: any    // todo: 完善payload类型
-}
-
 declare interface IContextType {
     socket: Socket,
     userInfo: userInfo,
@@ -129,7 +124,7 @@ const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
 
     // 计算属性： 获取左侧群列表信息
     const chatroomNameListMemo: IChatroomNameItem[] = useMemo(() => {
-            console.log('重新计算 chatroomNameListMemo')
+            // console.log('重新计算 chatroomNameListMemo')
             return state.chatroomInfoList?.map(T => {
                 const lastMessage = T.messageList.slice(-1)[0]
                 return ({

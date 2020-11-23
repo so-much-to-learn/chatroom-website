@@ -4,7 +4,7 @@ import { USER_SEND_MESSAGE_RES } from 'constants/browser'
 import { Context, ACTIONS } from 'context/index'
 
 const ChattingPanel: React.FC = () => {
-    const {state, dispatch} = useContext(Context)
+    const { state, dispatch } = useContext(Context)
     const chattingPanelDom = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -15,22 +15,21 @@ const ChattingPanel: React.FC = () => {
         <div className={ styles.container }
              ref={ chattingPanelDom }>
             { state.currentChatroom?.messageList.map(messageItem => (
-                <Message { ...messageItem } key={ messageItem.messageId }/>
+                <Message { ...messageItem } currUid={ state.userInfo.uid } key={ messageItem.messageId }/>
             )) }
         </div>
     )
 }
 
-const Message: React.FC<IMessageItem> = (props) => {
-    const {state, dispatch} = useContext(Context)
-    const {uid, username, message} = props
+const Message: React.FC<{ currUid: number | null } & IMessageItem> = React.memo((props) => {
+    const { uid, username, message, currUid } = props
 
     return (
-        <div className={ uid === state.userInfo.uid ? 'message-item is-me' : 'message-item' }>
+        <div className={ uid === currUid ? 'message-item is-me' : 'message-item' }>
             <div className='message-item-username'>{ username }</div>
             <pre className='message-item-message'>{ message }</pre>
         </div>
     )
-}
+})
 
 export default ChattingPanel
