@@ -128,15 +128,19 @@ const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
     }, [])
 
     // 计算属性： 获取左侧群列表信息
-    const chatroomNameListMemo: IChatroomNameItem[] = useMemo(() => state.chatroomInfoList?.map(T => {
-        const lastMessage = T.messageList.slice(-1)[0]
-        return ({
-            id: T.id,
-            name: T.name,
-            recentMessage: lastMessage?.message,
-            recentMessageUsername: lastMessage?.username
-        })
-    }), [state.chatroomInfoList])
+    const chatroomNameListMemo: IChatroomNameItem[] = useMemo(() => {
+            console.log('重新计算 chatroomNameListMemo')
+            return state.chatroomInfoList?.map(T => {
+                const lastMessage = T.messageList.slice(-1)[0]
+                return ({
+                    id: T.id,
+                    name: T.name,
+                    recentMessage: lastMessage?.message,
+                    recentMessageUsername: lastMessage?.username
+                })
+            })
+        }, [state.chatroomInfoList]
+    )
     return <Context.Provider value={ { state: { ...state, chatroomNameListMemo }, dispatch } }>
         { props.children }</Context.Provider>
 }
