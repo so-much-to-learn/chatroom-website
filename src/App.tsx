@@ -4,12 +4,12 @@ import { HashRouter as Router, Route } from 'react-router-dom'
 import Login from './pages/login'
 
 export default () => {
-    return (
-        <div className='App'>
-                <Router>
-                    <Route path='/' component={ Home } exact/>
-                    <Route path='/login' component={ Login }/>
-                </Router>
-        </div>
-    )
+  return (
+    <div className='App'>
+      <Router>
+        <Route path='/' component={Home} exact />
+        <Route path='/login' component={Login} />
+      </Router>
+    </div>
+  )
 }

@@ -1,14 +1,15 @@
 body {
-    font-family: -apple-system, 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: -apple-system, 'Open Sans', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
 }
 
 .App {
-    background: url("assets/imgs/bg.jpg") no-repeat;
-    background-size: cover;
-    height: 100vh;
-    min-width: 1000px;
-    min-height: 750px;
-    overflow: hidden;
-    margin: 0 auto;
-    position: relative;
+  background: url('assets/imgs/bg.jpg') no-repeat;
+  background-size: cover;
+  height: 100vh;
+  min-width: 1000px;
+  min-height: 750px;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
 }

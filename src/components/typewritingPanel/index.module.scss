@@ -1,42 +1,42 @@
 .container {
-    border-radius: 0 0 $main-border-radius 0;
-    flex-basis: 240px;
-    flex-grow: 0;
-    border-top: 1px solid #E6E6E6;
-    padding: 20px;
+  border-radius: 0 0 $main-border-radius 0;
+  flex-basis: 240px;
+  flex-grow: 0;
+  border-top: 1px solid #e6e6e6;
+  padding: 20px;
 
-    :global .ant-form {
+  :global .ant-form {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: stretch;
+
+    .ant-row:first-child {
+      flex-grow: 1;
+
+      .ant-form-item-control-input {
         height: 100%;
-        display: flex;
-        flex-flow: column;
-        justify-content: space-between;
-        align-items: stretch;
 
-        .ant-row:first-child {
-            flex-grow: 1;
+        .ant-form-item-control-input-content {
+          height: 100%;
 
-            .ant-form-item-control-input {
-                height: 100%;
-
-                .ant-form-item-control-input-content {
-                    height: 100%;
-
-                    .ant-input {
-                        height: 100%;
-                        padding: 0;
-                        resize: none;
-                    }
-                }
-            }
+          .ant-input {
+            height: 100%;
+            padding: 0;
+            resize: none;
+          }
         }
-
-        .ant-row:last-child {
-            flex-grow: 0;
-            margin: 0;
-
-            .ant-form-item-control-input-content {
-                @include flexbox($justify-content: flex-end);
-            }
-        }
+      }
     }
+
+    .ant-row:last-child {
+      flex-grow: 0;
+      margin: 0;
+
+      .ant-form-item-control-input-content {
+        @include flexbox($justify-content: flex-end);
+      }
+    }
+  }
 }
