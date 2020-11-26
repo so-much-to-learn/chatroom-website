@@ -1,21 +1,21 @@
-import React, { Component, useRef, useContext, useEffect } from "react";
-import SettingBar from "components/settingBar/index";
-import ChatroomList from "components/chatroomList";
-import GroupInfo from "components/groupInfo";
-import ChattingPanel from "components/chattingPanel";
-import TypewritingPanel from "components/typewritingPanel";
-import { useHistory } from "react-router";
-import styles from "./index.module.scss";
-import { USER_SEND_MESSAGE_RES } from "constants/browser";
-import { Context, ACTIONS } from "context/index";
+import React, { Component, useRef, useContext, useEffect } from 'react';
+import SettingBar from 'components/settingBar/index';
+import ChatroomList from 'components/chatroomList';
+import GroupInfo from 'components/groupInfo';
+import ChattingPanel from 'components/chattingPanel';
+import TypewritingPanel from 'components/typewritingPanel';
+import { useHistory } from 'react-router';
+import styles from './index.module.scss';
+import { USER_SEND_MESSAGE_RES } from 'constants/browser';
+import { ACTIONS, StateContext } from 'context/index';
 
-const Home: React.FC = props => {
-  const { state } = useContext(Context);
+const Home: React.FC = (props) => {
+  const state = useContext(StateContext);
   const soundRef = useRef<HTMLAudioElement>(null);
   const history = useHistory();
 
   if (!state.userInfo?.uid) {
-    history.push("/login");
+    history.push('/login');
   }
 
   useEffect(() => {

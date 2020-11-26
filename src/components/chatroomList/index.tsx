@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useMemo, useCallback, useRef } from 'react';
 import styles from './index.module.scss';
-import { ACTIONS, Context } from 'context/index';
+import { ACTIONS, DispatchContext, StateContext } from 'context/index';
 import * as Api from 'apis';
 import { USER_SEND_MESSAGE_RES } from 'constants/browser';
 import * as Utils from 'utils';
@@ -11,7 +11,8 @@ interface newMessageObj {
 }
 
 const ChatroomList: React.FC = () => {
-  const { state, dispatch } = useContext(Context);
+  const state = useContext(StateContext);
+  const dispatch = useContext(DispatchContext);
 
   const handleChangeChatroom = useCallback((id: number) => {
     dispatch({ type: ACTIONS.CHANGE_CHATROOM, payload: { chatroomId: id } });

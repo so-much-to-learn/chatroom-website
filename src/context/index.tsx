@@ -12,23 +12,14 @@ declare interface IContextType {
   currentChatroom: IChatroomInfoItem | null;
 }
 
-const initContextValue: IContextType = {
+export const initContextValue: IContextType = {
   chatroomInfoList: [],
   currentChatroom: null,
-  userInfo: {
-    uid: null,
-    username: null,
-  },
+  userInfo: JSON.parse(sessionStorage.getItem(USER_INFO) ?? '{}'),
   socket: io(BaseURL, {
     transports: ['websocket', 'xhr-polling', 'jsonp-polling'],
   }),
 };
-
-const Context = React.createContext<{
-  state: IContextType;
-  dispatch: React.Dispatch<IAction>;
-  // @ts-ignore
-}>(null); // todo context 拆分
 
 // Actions
 const RESET_USER_INFO = 'RESET_USER_INFO';
@@ -37,7 +28,7 @@ const CHATROOM_INFO_LIST = 'CHATROOM_INFO_LIST';
 const USER_LOGIN = 'USER_LOGIN';
 const NEW_MESSAGE = 'NEW_MESSAGE';
 
-const ACTIONS = {
+export const ACTIONS = {
   RESET_USER_INFO,
   CHANGE_CHATROOM,
   CHATROOM_INFO_LIST,
@@ -45,7 +36,7 @@ const ACTIONS = {
   NEW_MESSAGE,
 };
 
-const reducer: React.Reducer<IContextType, IAction> = (
+export const reducer: React.Reducer<IContextType, IAction> = (
   state: IContextType,
   action: IAction
 ): IContextType => {
@@ -92,16 +83,5 @@ const reducer: React.Reducer<IContextType, IAction> = (
   }
 };
 
-const initContextValueFunc = (initContextValue: IContextType) => {
-  const sessUserInfo = sessionStorage.getItem(USER_INFO);
-  const userInfo = sessUserInfo ? JSON.parse(sessUserInfo) : sessUserInfo;
-  return { ...initContextValue, userInfo };
-};
-
-const ContextProvider = (props: { children: React.ReactNode }): JSX.Element => {
-  const [state, dispatch] = useReducer(reducer, initContextValue, initContextValueFunc);
-
-  return <Context.Provider value={{ state, dispatch }}>{props.children}</Context.Provider>;
-};
-
-export { Context, ContextProvider, ACTIONS };
+export const StateContext = React.createContext<IContextType>(initContextValue);
+export const DispatchContext = React.createContext<React.Dispatch<IAction>>(() => {});

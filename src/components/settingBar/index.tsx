@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
-import styles from "./index.module.scss";
-import { useHistory } from "react-router";
-import { Context, ACTIONS } from "context/index";
+import React, { useContext } from 'react';
+import styles from './index.module.scss';
+import { useHistory } from 'react-router';
+import { DispatchContext, StateContext, ACTIONS } from 'context/index';
 
-const SettingBar: React.FC = props => {
+const SettingBar: React.FC = (props) => {
   const history = useHistory();
-  const { state, dispatch } = useContext(Context);
+  const state = useContext(StateContext);
+  const dispatch = useContext(DispatchContext);
 
   const handleLogout = () => {
     dispatch({ type: ACTIONS.RESET_USER_INFO });
-    history.push("/login");
+    history.push('/login');
   };
 
   return (
