@@ -1,7 +1,11 @@
 {
   "name": "web-core",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "build/index.js",
+  "types": "typings/index.d.ts",
+  "scripts": {
+    "dev": "tsc"
+  },
   "publishConfig": {
     "access": "public"
   },

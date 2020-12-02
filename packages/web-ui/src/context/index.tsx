@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useReducer, useRef } from 'react';
-import * as Api from 'apis';
-import { USER_INFO, USER_SEND_MESSAGE, USER_SEND_MESSAGE_RES } from 'constants/browser';
-import { io, Socket } from 'socket.io-client';
+import React from 'react';
+import { USER_INFO } from 'constants/browser';
+import { Socket } from 'socket.io-client';
+import { getSocketInstance } from 'web-core';
 import { BaseURL } from 'constants/server';
 import * as Utils from 'utils';
 
@@ -16,9 +16,7 @@ export const initContextValue: IContextType = {
   chatroomInfoList: [],
   currentChatroom: null,
   userInfo: JSON.parse(sessionStorage.getItem(USER_INFO) ?? '{}'),
-  socket: io(BaseURL, {
-    transports: ['websocket', 'xhr-polling', 'jsonp-polling'],
-  }),
+  socket: getSocketInstance(BaseURL),
 };
 
 // Actions
@@ -38,7 +36,7 @@ export const ACTIONS = {
 
 export const reducer: React.Reducer<IContextType, IAction> = (
   state: IContextType,
-  action: IAction
+  action: IAction,
 ): IContextType => {
   // console.log('reducer: ', state, action)
   switch (action.type) {
@@ -59,7 +57,7 @@ export const reducer: React.Reducer<IContextType, IAction> = (
       if (!chatroom || !currentChatroom) return state;
       const otherChatroomList = Utils.removeItemInArray<IChatroomInfoItem>(
         chatroomInfoList,
-        chatroom
+        chatroom,
       );
       const newChatroomInfo = {
         ...chatroom,
@@ -67,10 +65,10 @@ export const reducer: React.Reducer<IContextType, IAction> = (
       };
       return currentChatroom.id === chatroomId
         ? {
-            ...state,
-            chatroomInfoList: [newChatroomInfo, ...otherChatroomList],
-            currentChatroom: newChatroomInfo,
-          }
+          ...state,
+          chatroomInfoList: [newChatroomInfo, ...otherChatroomList],
+          currentChatroom: newChatroomInfo,
+        }
         : { ...state, chatroomInfoList: [newChatroomInfo, ...otherChatroomList] };
     }
     case ACTIONS.USER_LOGIN: {
@@ -84,4 +82,5 @@ export const reducer: React.Reducer<IContextType, IAction> = (
 };
 
 export const StateContext = React.createContext<IContextType>(initContextValue);
-export const DispatchContext = React.createContext<React.Dispatch<IAction>>(() => {});
+export const DispatchContext = React.createContext<React.Dispatch<IAction>>(() => {
+});

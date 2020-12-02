@@ -36,18 +36,22 @@ package目录：
 
 ## 运行
 
+安装所有依赖
 ```bash
-# 安装所有依赖
-lerna bootstrap
+yarn install
 ```
 
-
+开发web-core前需要运行
 ```bash
-# 跑起后端服务
+yarn run core-dev
+```
+
+跑起后端服务
+```bash
 yarn run server
 ```
 
+跑起前端页面
 ```bash
-# 跑起前端页面
 yarn run start
 ```
