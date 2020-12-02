@@ -1,6 +1,11 @@
 {
   "name": "web-core",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "socket.io-client": "^3.0.3"
+  }
 }

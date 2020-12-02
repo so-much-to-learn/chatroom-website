@@ -4,5 +4,35 @@
   "main": "index.js",
   "repository": "git@github.com:/SHERlocked93/chatroom-website.git",
   "author": "SHERlocked93 <443033099@qq.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "lerna run --stream --sort build",
+    "clean": "yarn workspaces run clean",
+    "start": "yarn workspace web-ui run start",
+    "server": "yarn workspace server run start",
+    "test": "yarn workspaces run test",
+    "commit": "git-cz",
+    "version": "lerna version --conventional-commits"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "commitizen": "^4.2.2",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.3",
+    "lerna": "^3.22.1",
+    "prettier": "^2.2.1",
+    "prettier-eslint": "^12.0.0",
+    "typescript": "^4.1.2"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
 }

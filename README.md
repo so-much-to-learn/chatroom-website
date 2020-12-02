@@ -1,14 +1,17 @@
 # chatroom-website 在线聊天室
 
+使用 lerna + yarn workspace 来将结构 monorepo 化
+
 ![2020-11-1415-17-51.2020-11-1415_26_02](https://cdn.jsdelivr.net/gh/SHERlocked93/pic@master/uPic/2020-11-14%2015-17-51.2020-11-14%2015_26_02.gif)
 
 [代码](https://sherlocked93.github.io/chatroom-website)
 
-分支：
-1. master: 使用mobx
-2. local: 为了更好锻炼hooks技能，使用useReducer+useContext重构
+package目录：
+1. server 后端服务
+2. web-core 前端socket服务模块
+3. web-ui 浏览器端UI
 
-前端： typescript@4 + react@17 + react-router@5 + css-modules + scss + mobx@5 + antd@4
+前端： typescript@4 + react@17 + react-router@5 + css-modules + scss + mobx@5 + antd@4 + lerna@3 + yarn workspace
 服务端： express@4 + socket.io
 
 - [x] 1. 登录/注册页面
@@ -34,11 +37,17 @@
 ## 运行
 
 ```bash
+# 安装所有依赖
+lerna bootstrap
+```
+
+
+```bash
 # 跑起后端服务
-npm run server
+yarn run server
 ```
 
 ```bash
 # 跑起前端页面
-npm run start
+yarn run start
 ```
