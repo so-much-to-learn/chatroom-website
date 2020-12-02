@@ -1,7 +1,7 @@
 import React from 'react';
 import { USER_INFO } from 'constants/browser';
+import { getSocketInstance, socketInstance } from 'web-core';
 import { Socket } from 'socket.io-client';
-import { getSocketInstance } from 'web-core';
 import { BaseURL } from 'constants/server';
 import * as Utils from 'utils';
 

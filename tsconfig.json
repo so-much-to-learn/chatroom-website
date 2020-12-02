@@ -19,12 +19,13 @@
     "paths": {
       "~/*": ["./*"],
       "@/*": ["./*"]
-    }
+    },
+    "types": ["socket.io-client"]
   },
   "include": [
     "packages/web-ui/src"
   ],
   "exclude": [
-    "**/node_modules",
+    "**/node_modules"
   ]
 }
