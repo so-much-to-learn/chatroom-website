@@ -1,0 +1,18 @@
+diff --git a/node_modules/fastify/types/logger.d.ts b/node_modules/fastify/types/logger.d.ts
+index 41d8e28..39a15e1 100644
+--- a/node_modules/fastify/types/logger.d.ts
++++ b/node_modules/fastify/types/logger.d.ts
+@@ -19,6 +19,7 @@
+  */
+ 
+ import { FastifyError } from 'fastify-error'
++import { DestinationObjectOptions, DestinationStream } from 'pino'
+ import { RawServerBase, RawServerDefault, RawRequestDefaultExpression, RawReplyDefaultExpression } from './utils'
+ import { FastifyRequest, RequestGenericInterface } from './request'
+ 
+@@ -141,4 +142,5 @@ export interface FastifyLoggerOptions<
+   level?: string;
+   genReqId?: <RequestGeneric extends RequestGenericInterface = RequestGenericInterface>(req: FastifyRequest<RequestGeneric, RawServer, RawRequest>) => string;
+   prettyPrint?: boolean | PrettyOptions;
++  file?: string | number | DestinationObjectOptions | DestinationStream | NodeJS.WritableStream
+ }

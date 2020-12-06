@@ -12,6 +12,7 @@
     "im-core-dev": "yarn workspace im-core run dev",
     "server": "yarn workspace server run start",
     "test": "yarn workspaces run test",
+    "postinstall": "patch-package",
     "commit": "git-cz",
     "version": "lerna version --conventional-commits"
   },

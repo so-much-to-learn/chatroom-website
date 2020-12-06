@@ -28,7 +28,8 @@
 - [ ] 7. 在群里点歌功能
 - [ ] 8. 后端使用 nestjs + graphql + mysql 重构
 
-
+## server
+基于 fastify 构建的服务，内置 pino 作为日志系统。
 ## 收获
 
 1. [x] axios 更改返回值类型 /src/typings/shims.d.ts

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "lib": ["es2017"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "baseUrl": ".",
+    "types": ["node"],
+    "typeRoots": ["*/node_modules/@types", "@types"]
+  },
+  "include": [
+    "./src/**/*.ts", 
+    "./src/**/*.json",
+    "./src/**/*.log" 
+  ],
+  "exclude": ["node_modules"]
+}
