@@ -1,13 +1,21 @@
 import { io } from 'socket.io-client';
-let socketInstance = null;
-const getSocketInstance = (socketUrl) => {
-    // 返回单例
-    if (!socketInstance) {
-        socketInstance = io(socketUrl, {
+class SocketServe {
+    constructor(socketUrl, userInfo) {
+        if (SocketServe._SocketServeInstance) {
+            return SocketServe._SocketServeInstance;
+        }
+        this._socketInstance = io(socketUrl, {
             transports: ['websocket', 'xhr-polling', 'jsonp-polling'],
         });
+        SocketServe._SocketServeInstance = this;
     }
-    return socketInstance;
-};
-export { socketInstance, getSocketInstance };
+    static getInstance(socketUrl, userInfo) {
+        if (SocketServe._SocketServeInstance) {
+            return SocketServe._SocketServeInstance;
+        }
+        return (SocketServe._SocketServeInstance = new SocketServe(socketUrl, userInfo));
+    }
+    sentMessage(payload) { }
+}
+export default SocketServe;
 //# sourceMappingURL=index.js.map
