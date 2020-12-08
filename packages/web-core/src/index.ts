@@ -2,30 +2,49 @@ import { io, Socket } from 'socket.io-client';
 import { Manager } from 'socket.io-client/build/manager';
 import { SocketOptions } from 'socket.io-client/build/socket';
 
-type getSocketInstanceFunc = (socketUrl: string, userInfo: userInfo) => Socket;
+interface userInfo {
+  uid: number | null;
+  username: string | null;
+}
 
-class SocketServe {
+enum SendType {
+  Group,
+  Single,
+}
+
+enum MessageType {
+  UserSendMessage,
+  UserCreateGroup,
+  UserEnterGroup,
+}
+
+class SocketCore {
   private _socketInstance;
-  private static _SocketServeInstance: SocketServe;
+  private static _SocketCoreInstance: SocketCore;
 
   constructor(socketUrl: string, userInfo: userInfo) {
-    if (SocketServe._SocketServeInstance) {
-      return SocketServe._SocketServeInstance;
+    if (SocketCore._SocketCoreInstance) {
+      return SocketCore._SocketCoreInstance;
     }
     this._socketInstance = io(socketUrl, {
       transports: ['websocket', 'xhr-polling', 'jsonp-polling'],
     });
-    SocketServe._SocketServeInstance = this;
+    SocketCore._SocketCoreInstance = this;
   }
 
   public static getInstance(socketUrl, userInfo) {
-    if (SocketServe._SocketServeInstance) {
-      return SocketServe._SocketServeInstance;
+    if (SocketCore._SocketCoreInstance) {
+      return SocketCore._SocketCoreInstance;
     }
-    return (SocketServe._SocketServeInstance = new SocketServe(socketUrl, userInfo));
+    return (SocketCore._SocketCoreInstance = new SocketCore(socketUrl, userInfo));
   }
 
-  public sentMessage(payload: unknown): void {}
+  public sentMessage(payload: unknown, type: SendType): void {
+    this._socketInstance.emit(MessageType.UserSendMessage);
+  }
 }
 
-export default SocketServe;
+// 组成消息体
+const generateCommBody = ({}) => {};
+
+export default SocketCore;
