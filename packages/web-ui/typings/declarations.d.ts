@@ -1,16 +1,16 @@
 declare module '*.css' {
-  const content: { [className: string]: string };
-  export = content;
+  const classes: { readonly [className: string]: string };
+  export default classes;
 }
 
 declare module '*.scss' {
-  const content: { [className: string]: string };
-  export = content;
+  const classes: { readonly [className: string]: string };
+  export default classes;
 }
 
 declare interface IAction {
-    type: string
-    payload?: any    // todo: 完善payload类型
+  type: string
+  payload?: any    // todo: 完善payload类型
 }
 
 // 聊天室信息对象
@@ -32,8 +32,8 @@ declare interface userInfo {
 }
 
 declare interface loginQuery {
-  username?: string;
-  password?: string;
+  username: string;
+  password: string;
 }
 
 // 聊天室面板信息，显示在chatroomList中预览的

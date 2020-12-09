@@ -1,6 +1,6 @@
 import React from 'react';
 import { USER_INFO } from 'constants/browser';
-import { getSocketInstance, socketInstance } from 'web-core';
+import SocketCore from 'web-core';
 import { Socket } from 'socket.io-client';
 import { BaseURL } from 'constants/server';
 import * as Utils from 'utils';
@@ -12,11 +12,13 @@ declare interface IContextType {
   currentChatroom: IChatroomInfoItem | null;
 }
 
+const userInfoBefore: string | null = sessionStorage.getItem(USER_INFO);
+
 export const initContextValue: IContextType = {
   chatroomInfoList: [],
   currentChatroom: null,
-  userInfo: JSON.parse(sessionStorage.getItem(USER_INFO) ?? '{}'),
-  socket: getSocketInstance(BaseURL),
+  userInfo: JSON.parse(userInfoBefore ?? '{}'),
+  socket: userInfoBefore ?? new SocketCore(BaseURL, JSON.parse(userInfoBefore)),
 };
 
 // Actions

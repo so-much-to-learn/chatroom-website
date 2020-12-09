@@ -1,20 +1,21 @@
 import { Socket } from 'socket.io-client';
-import { socketInstance, getSocketInstance } from '../src/index';
+import SocketCore from '../src/index';
 
 declare module 'web-core' {
-  export default SocketServe;
+  export default SocketCore;
 }
 
-export declare interface userInfo {
-  uid: number | null;
-  username: string | null;
-}
+declare global {
+  interface IUserInfo {
+    uid: number | null;
+    username: string | null;
+  }
 
-export declare class SocketServe {
-  private _socketInstance: Socket;
-  private static _SocketServeInstance: SocketServe;
-
-  constructor(socketUrl: string, userInfo: userInfo);
-
-  public static getInstance(socketUrl: string, userInfo: userInfo): SocketServe;
+  interface IReqBody {
+    timestamp: number;
+    userInfo: IUserInfo;
+    code: number;
+    message: string | null;
+    payload: object | null;
+  }
 }

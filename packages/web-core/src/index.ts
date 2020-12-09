@@ -1,28 +1,39 @@
 import { io, Socket } from 'socket.io-client';
-import { Manager } from 'socket.io-client/build/manager';
-import { SocketOptions } from 'socket.io-client/build/socket';
 
-interface userInfo {
-  uid: number | null;
-  username: string | null;
-}
+const Group = 'Group';
+const Single = 'Single';
 
-enum SendType {
+const SendType = {
   Group,
   Single,
-}
+};
 
-enum MessageType {
+const UserSendMessage = 'UserSendMessage';
+const UserCreateGroup = 'UserCreateGroup';
+const UserEnterGroup = 'UserEnterGroup';
+
+const MessageType = {
   UserSendMessage,
   UserCreateGroup,
   UserEnterGroup,
-}
+};
+
+// declare class ISocketCore {
+//   private _socketInstance: Socket;
+//   private static _SocketCoreInstance: SocketCore;
+//
+//   constructor(socketUrl: string, userInfo: IUserInfo);
+//
+//   public static getInstance(socketUrl: string, userInfo: IUserInfo): SocketCore;
+//
+//   public sentMessage(unknown)
+// }
 
 class SocketCore {
-  private _socketInstance;
+  private _socketInstance: Socket;
   private static _SocketCoreInstance: SocketCore;
 
-  constructor(socketUrl: string, userInfo: userInfo) {
+  constructor(socketUrl: string, userInfo: IUserInfo) {
     if (SocketCore._SocketCoreInstance) {
       return SocketCore._SocketCoreInstance;
     }
@@ -39,12 +50,13 @@ class SocketCore {
     return (SocketCore._SocketCoreInstance = new SocketCore(socketUrl, userInfo));
   }
 
-  public sentMessage(payload: unknown, type: SendType): void {
-    this._socketInstance.emit(MessageType.UserSendMessage);
+  public sentMessage(payload: unknown, type: keyof typeof SendType): void {
+    this._socketInstance.emit(type as string);
   }
 }
 
 // 组成消息体
-const generateCommBody = ({}) => {};
+const generateCommBody = ({}) => {
+};
 
 export default SocketCore;

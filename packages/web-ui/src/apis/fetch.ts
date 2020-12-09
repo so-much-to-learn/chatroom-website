@@ -29,8 +29,8 @@ service.interceptors.response.use(
     const { code, data, message } = response.data as apiResponse
     const config = response.config
 
-    if (![20000].includes(code)) {
-      // code为非20000或20001是抛错
+    if (![0].includes(code)) {
+      // code为非0是抛错
       Message.error('Error in fetch.js respone interceptors:  ' + message)
       if (code === 40001) {
         // token失效等需要重新登录的情况

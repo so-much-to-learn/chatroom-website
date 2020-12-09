@@ -6,15 +6,17 @@
     "rootDir": "./src",
     "outDir": "./build",
     "watch": true,
+    "baseUrl": "./",
+    "strictPropertyInitialization": false,
     "module": "ES2020"
   },
   "paths": {
-    "*": ["typings/*"]
+    "~/*": ["./*"],
+    "@/*": ["./*"]
   },
   "include": [
-    "src/*"
+    "./src",
+    "./typings",
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
