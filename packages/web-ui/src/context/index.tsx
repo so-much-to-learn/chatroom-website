@@ -1,12 +1,11 @@
 import React from 'react';
 import { USER_INFO } from 'constants/browser';
 import SocketCore from 'web-core';
-import { Socket } from 'socket.io-client';
 import { BaseURL } from 'constants/server';
 import * as Utils from 'utils';
 
 declare interface IContextType {
-  socket: Socket;
+  socket: SocketCore | null;
   userInfo: userInfo;
   chatroomInfoList: IChatroomInfoItem[];
   currentChatroom: IChatroomInfoItem | null;
@@ -18,7 +17,7 @@ export const initContextValue: IContextType = {
   chatroomInfoList: [],
   currentChatroom: null,
   userInfo: JSON.parse(userInfoBefore ?? '{}'),
-  socket: userInfoBefore ?? new SocketCore(BaseURL, JSON.parse(userInfoBefore)),
+  socket: userInfoBefore && new SocketCore(BaseURL, JSON.parse(userInfoBefore)),
 };
 
 // Actions
@@ -76,7 +75,7 @@ export const reducer: React.Reducer<IContextType, IAction> = (
     case ACTIONS.USER_LOGIN: {
       const { userInfo } = action.payload;
       userInfo && sessionStorage.setItem(USER_INFO, JSON.stringify(userInfo));
-      return { ...state, userInfo };
+      return { ...state, userInfo, socket: new SocketCore(BaseURL, userInfo) };
     }
     default:
       return state;

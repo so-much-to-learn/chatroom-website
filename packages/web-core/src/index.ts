@@ -8,6 +8,8 @@ const SendType = {
   Single,
 };
 
+type ISendType = keyof typeof SendType
+
 const UserSendMessage = 'UserSendMessage';
 const UserCreateGroup = 'UserCreateGroup';
 const UserEnterGroup = 'UserEnterGroup';
@@ -33,30 +35,26 @@ class SocketCore {
   private _socketInstance: Socket;
   private static _SocketCoreInstance: SocketCore;
 
-  constructor(socketUrl: string, userInfo: IUserInfo) {
+  // 单例
+  constructor(private _socketUrl: string, private _userInfo: IUserInfo) {
     if (SocketCore._SocketCoreInstance) {
       return SocketCore._SocketCoreInstance;
     }
-    this._socketInstance = io(socketUrl, {
+    this._socketInstance = io(_socketUrl, {
       transports: ['websocket', 'xhr-polling', 'jsonp-polling'],
     });
     SocketCore._SocketCoreInstance = this;
   }
 
-  public static getInstance(socketUrl, userInfo) {
-    if (SocketCore._SocketCoreInstance) {
-      return SocketCore._SocketCoreInstance;
-    }
-    return (SocketCore._SocketCoreInstance = new SocketCore(socketUrl, userInfo));
-  }
-
-  public sentMessage(payload: unknown, type: keyof typeof SendType): void {
-    this._socketInstance.emit(type as string);
+  public sentMessage(type: ISendType, receiverId: number, payload: ISinglePayload | IGroupPayload | null): void {
+    const reqBody: IReqBody = {
+      timestamp: +new Date(),
+      userInfo: this._userInfo,
+      receiverId,
+      payload,
+    };
+    this._socketInstance.emit(type, reqBody);
   }
 }
-
-// 组成消息体
-const generateCommBody = ({}) => {
-};
 
 export default SocketCore;

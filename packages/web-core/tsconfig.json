@@ -7,7 +7,6 @@
     "outDir": "./build",
     "watch": true,
     "baseUrl": "./",
-    "strictPropertyInitialization": false,
     "module": "ES2020"
   },
   "paths": {

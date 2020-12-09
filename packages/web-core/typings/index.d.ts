@@ -14,8 +14,15 @@ declare global {
   interface IReqBody {
     timestamp: number;
     userInfo: IUserInfo;
-    code: number;
-    message: string | null;
-    payload: object | null;
+    receiverId: number;
+    payload: ISinglePayload | IGroupPayload | null;
+  }
+
+  interface ISinglePayload {
+    text: string
+  }
+
+  interface IGroupPayload {
+    text: string
   }
 }
