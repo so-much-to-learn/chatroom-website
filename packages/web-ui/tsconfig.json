@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["src", "./typings"],
+  "include": ["src", "./typings","../../node_modules/im-core"],
   "exclude": ["node_modules"]
 }

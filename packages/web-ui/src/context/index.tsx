@@ -1,11 +1,11 @@
 import React from 'react';
 import { USER_INFO } from 'constants/browser';
-import SocketCore from 'web-core';
+import ImCore from 'im-core';
 import { BaseURL } from 'constants/server';
 import * as Utils from 'utils';
 
 declare interface IContextType {
-  socket: SocketCore | null;
+  imCore: ImCore | null;
   userInfo: userInfo;
   chatroomInfoList: IChatroomInfoItem[];
   currentChatroom: IChatroomInfoItem | null;
@@ -17,7 +17,7 @@ export const initContextValue: IContextType = {
   chatroomInfoList: [],
   currentChatroom: null,
   userInfo: JSON.parse(userInfoBefore ?? '{}'),
-  socket: userInfoBefore && new SocketCore(BaseURL, JSON.parse(userInfoBefore)),
+  imCore: userInfoBefore && new ImCore(BaseURL, JSON.parse(userInfoBefore)),
 };
 
 // Actions
@@ -46,15 +46,15 @@ export const reducer: React.Reducer<IContextType, IAction> = (
       return { ...state, userInfo: { uid: null, username: null } };
     case ACTIONS.CHANGE_CHATROOM:
       const newChatroom =
-        state.chatroomInfoList.find((T) => T.id === action.payload.chatroomId) ?? null;
+        state.chatroomInfoList.find((T) => T.id === action.payload.receiverId) ?? null;
       return { ...state, currentChatroom: newChatroom };
     case ACTIONS.CHATROOM_INFO_LIST: {
       return { ...state, ...action.payload };
     }
     case ACTIONS.NEW_MESSAGE: {
       const { chatroomInfoList, currentChatroom } = state;
-      const { chatroomId, newMessage } = action.payload;
-      const chatroom = chatroomInfoList.find((chatroom) => chatroom.id === chatroomId);
+      const { receiverId, newMessage } = action.payload;
+      const chatroom = chatroomInfoList.find((chatroom) => chatroom.id === receiverId);
       if (!chatroom || !currentChatroom) return state;
       const otherChatroomList = Utils.removeItemInArray<IChatroomInfoItem>(
         chatroomInfoList,
@@ -64,7 +64,7 @@ export const reducer: React.Reducer<IContextType, IAction> = (
         ...chatroom,
         messageList: [...chatroom!.messageList, newMessage],
       };
-      return currentChatroom.id === chatroomId
+      return currentChatroom.id === receiverId
         ? {
           ...state,
           chatroomInfoList: [newChatroomInfo, ...otherChatroomList],
@@ -75,7 +75,7 @@ export const reducer: React.Reducer<IContextType, IAction> = (
     case ACTIONS.USER_LOGIN: {
       const { userInfo } = action.payload;
       userInfo && sessionStorage.setItem(USER_INFO, JSON.stringify(userInfo));
-      return { ...state, userInfo, socket: new SocketCore(BaseURL, userInfo) };
+      return { ...state, userInfo, imCore: new ImCore(BaseURL, userInfo) };
     }
     default:
       return state;

@@ -1,5 +1,4 @@
 import axios, { AxiosResponse, AxiosRequestConfig, AxiosError } from 'axios'
-import { CustomAxiosInstance } from 'typings/shims'
 import { BaseURL } from 'constants/server'
 import { message as Message } from 'antd'
 import { createHashHistory } from 'history'

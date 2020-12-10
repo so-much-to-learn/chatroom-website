@@ -34,11 +34,11 @@ app.get('/chatroom/info-list', (req, res) => {
 
 io.on('connection', (socket) => {
   // 用户在群组中发送消息
-  socket.on('user-send-message', ({ chatroomId, messageObj }) => {
-    const chatroom = Data.chatroomInfoItems.find((chatroom) => chatroom.id === chatroomId);
-    const newMessage = { messageId: Utils.guid(), ...messageObj };
+  socket.on('UserSendMessage', (type, { payload: { text }, receiverId, userInfo, timestamp }) => {
+    const chatroom = Data.chatroomInfoItems.find((chatroom) => chatroom.id === receiverId);
+    const newMessage = { messageId: Utils.guid(), ...userInfo, message: text };
     chatroom.messageList.push(newMessage);
-    io.emit('user-send-message-res', { chatroomId, newMessage });
+    io.emit('OtherSendMessage', { receiverId, newMessage });
   });
 });
 

@@ -9,7 +9,7 @@
     "build": "lerna run --stream --sort build",
     "clean": "yarn workspaces run clean",
     "start": "yarn workspace web-ui run start",
-    "core-dev": "yarn workspace web-core run dev",
+    "im-core-dev": "yarn workspace im-core run dev",
     "server": "yarn workspace server run start",
     "test": "yarn workspaces run test",
     "commit": "git-cz",

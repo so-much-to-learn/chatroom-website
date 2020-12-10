@@ -1,5 +1,5 @@
 {
-  "name": "web-core",
+  "name": "im-core",
   "version": "1.0.0",
   "main": "build/index.js",
   "types": "typings",

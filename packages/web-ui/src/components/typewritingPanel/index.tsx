@@ -14,10 +14,8 @@ const TypewritingPanel: React.FC = (props) => {
   }, [state.currentChatroom]);
 
   const onFinish = ({ message }: { message: string }) => {
-    state.socket.emit(USER_SEND_MESSAGE, {
-      chatroomId: state.currentChatroom!.id,
-      messageObj: { ...state.userInfo, message },
-    });
+    state.currentChatroom &&
+    state.imCore.sendGroupMessage(state.currentChatroom.id, message);
     form.resetFields();
   };
 
@@ -28,17 +26,17 @@ const TypewritingPanel: React.FC = (props) => {
   };
 
   return (
-    <div className={styles.container}>
-      <Form form={form} name="add-message" onFinish={onFinish}>
-        <Form.Item name="message" label="">
+    <div className={ styles.container }>
+      <Form form={ form } name='add-message' onFinish={ onFinish }>
+        <Form.Item name='message' label=''>
           <Input.TextArea
-            placeholder="输入信息，按 Enter 提交"
-            bordered={false}
-            onKeyPress={handleKeyPress}
+            placeholder='输入信息，按 Enter 提交'
+            bordered={ false }
+            onKeyPress={ handleKeyPress }
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             发送
           </Button>
         </Form.Item>

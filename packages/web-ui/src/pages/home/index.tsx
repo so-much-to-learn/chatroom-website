@@ -6,12 +6,14 @@ import ChattingPanel from 'components/chattingPanel';
 import TypewritingPanel from 'components/typewritingPanel';
 import { useHistory } from 'react-router';
 import styles from './index.module.scss';
-import { USER_SEND_MESSAGE_RES } from 'constants/browser';
-import { ACTIONS, StateContext } from 'context/index';
+import { StateContext } from 'context/index';
 
-const Home: React.FC = (props) => {
+const Home: React.FC = () => {
   const state = useContext(StateContext);
   const soundRef = useRef<HTMLAudioElement>(null);
+  const souncRefCb = useRef(() => {
+    soundRef.current?.play();
+  });
   const history = useHistory();
 
   if (!state.userInfo?.uid) {
@@ -19,9 +21,10 @@ const Home: React.FC = (props) => {
   }
 
   useEffect(() => {
-    state.socket.on(USER_SEND_MESSAGE_RES, () => {
-      soundRef.current?.play();
-    });
+    state.imCore.subChannel('OtherSendMessage', souncRefCb.current);
+    return () => {
+      state.imCore.unsubChannle('OtherSendMessage', souncRefCb.current);
+    };
   }, []);
 
   return (

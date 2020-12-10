@@ -2,7 +2,7 @@ const Data = require('./data')
 const Mock = require('mockjs')
 const Utils = require('./utils')
 
-const respWithCode = (data, code = 20000, message = '') => ({ code, data, message })
+const respWithCode = (data, code = 0, message = '') => ({ code, data, message })
 
 module.exports = {
     login: req => {

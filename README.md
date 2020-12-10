@@ -8,7 +8,7 @@
 
 package目录：
 1. server 后端服务
-2. web-core 前端socket服务模块
+2. im-core 前端socket服务模块
 3. web-ui 浏览器端UI
 
 前端： typescript@4 + react@17 + react-router@5 + css-modules + scss + mobx@5 + antd@4 + lerna@3 + yarn workspace

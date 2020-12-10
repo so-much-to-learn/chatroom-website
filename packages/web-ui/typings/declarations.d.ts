@@ -1,4 +1,4 @@
-/// <reference types="web-core/typings" />
+/// <reference types="im-core/typings" />
 declare module '*.css' {
   const classes: { readonly [className: string]: string };
   export default classes;
