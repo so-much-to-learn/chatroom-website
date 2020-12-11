@@ -6,18 +6,23 @@
 
 [代码](https://sherlocked93.github.io/chatroom-website)
 
-package目录：
+前端： typescript@4 + react@17 + react-router@5 + css-modules + scss + mobx@5 + antd@4 + lerna@3 + yarn workspace
+服务端： express@4 + socket.io
+
+### package目录
 1. server 后端服务
 2. im-core 前端socket服务模块
 3. web-ui 浏览器端UI
 
-前端： typescript@4 + react@17 + react-router@5 + css-modules + scss + mobx@5 + antd@4 + lerna@3 + yarn workspace
-服务端： express@4 + socket.io
+### 结构图
+![im-结构](https://cdn.jsdelivr.net/gh/SHERlocked93/pic@master/uPic/im.png)
+
+### TODOS
 
 - [x] 1. 登录/注册页面
 - [x] 2. 聊天内容页面
 - [x] 3. express + socket.io 搭建后端服务
-- [ ] 4. 前端重构，将消息拆分开，方便以后在其他场景复用
+- [x] 4. 前端重构，将消息拆分开，方便以后在其他场景复用
 - [ ] 5. 加群功能
 - [ ] 6. 创建群功能
 - [ ] 7. 在群里点歌功能
