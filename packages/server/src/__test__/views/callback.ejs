@@ -1,7 +1,7 @@
 <html>
   <body>
     <button id="button">点击获取用户信息</button>
-    <div id="content"></div>
+    <ul id="list"></ul>
     <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.min.js"></script>
     <script>
       function parseURLParameters(search) {
@@ -19,10 +19,17 @@
         baseURL: 'http://localhost:3000/api'
       })
       const button = document.querySelector("#button")
+      const list = document.querySelector("#list")
       button.onclick = function() {
         instance.get(`/user/info?access_token=${params.access_token}`).then(res => {
-          const data = res.data
-          console.log('data', data)
+          list.innerHTML = ''
+          const data = res.data.data.user;
+          Object.keys(data).forEach((key, i) => {
+            const li = document.createElement('li')
+            li.dataset.index = i;
+            li.innerHTML = `${key}: ${data[key]}`
+            list.appendChild(li)
+          })
         })
       }
     </script>

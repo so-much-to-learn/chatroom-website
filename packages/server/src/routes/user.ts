@@ -26,29 +26,34 @@ export default function(fastify: FastifyInstance, options, next) {
             data: {
               type: 'object',
               properties: {
-                avatar_url: {
-                  type: 'string'
-                },
-                company: {
-                  type: 'string'
-                },
-                created_at: {
-                  type: 'string'
-                },
-                email: {
-                  type: 'string'
-                },
-                id: {
-                  type: 'number'
-                },
-                name: {
-                  type: 'string'
-                },
-                location: {
-                  type: 'string'
-                },
-                html_url: {
-                  type: 'string'
+                user: {
+                  type: 'object',
+                  properties: {
+                    avatar_url: {
+                      type: 'string'
+                    },
+                    company: {
+                      type: 'string'
+                    },
+                    created_at: {
+                      type: 'string'
+                    },
+                    email: {
+                      type: 'string'
+                    },
+                    id: {
+                      type: 'number'
+                    },
+                    name: {
+                      type: 'string'
+                    },
+                    location: {
+                      type: 'string'
+                    },
+                    html_url: {
+                      type: 'string'
+                    }
+                  }
                 }
               }
             }
