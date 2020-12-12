@@ -16,3 +16,16 @@ index 41d8e28..39a15e1 100644
    prettyPrint?: boolean | PrettyOptions;
 +  file?: string | number | DestinationObjectOptions | DestinationStream | NodeJS.WritableStream
  }
+diff --git a/node_modules/fastify/types/utils.d.ts b/node_modules/fastify/types/utils.d.ts
+index d6002a5..205e301 100644
+--- a/node_modules/fastify/types/utils.d.ts
++++ b/node_modules/fastify/types/utils.d.ts
+@@ -36,7 +36,7 @@ export type RawReplyDefaultExpression<
+     : never
+ 
+ export type RequestBodyDefault = unknown
+-export type RequestQuerystringDefault = unknown
++export type RequestQuerystringDefault = Record<string, any>
+ export type RequestParamsDefault = unknown
+ export type RequestHeadersDefault = unknown
+ 

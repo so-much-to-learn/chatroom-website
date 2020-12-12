@@ -19,7 +19,8 @@ const swaggerConfig: FastifyDynamicSwaggerOptions = {
     produces: ['application/json'],
     tags: [
       { name: 'user', description: 'User related end-points' },
-      { name: 'group', description: 'Group related end-points' }
+      { name: 'group', description: 'Group related end-points' },
+      { name: 'oauth', description: 'OAuth related end-points' }
     ],
     definitions: {
       User: {

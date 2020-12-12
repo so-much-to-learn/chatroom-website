@@ -1,4 +1,6 @@
+import base from './base'
+
 export default {
-  log: '/root/chatroom.error.log',
-  host: 'http://chatroom.gyyin.top'
+  ...base,
+  allowHosts: ['chatroom.gyyin.top'],
 }
