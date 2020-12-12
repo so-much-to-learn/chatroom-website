@@ -18,7 +18,42 @@ export default function(fastify: FastifyInstance, options, next) {
         }
       },
       response: {
-        
+        200: {
+          properties: {
+            code: {
+              type: 'number'
+            },
+            data: {
+              type: 'object',
+              properties: {
+                avatar_url: {
+                  type: 'string'
+                },
+                company: {
+                  type: 'string'
+                },
+                created_at: {
+                  type: 'string'
+                },
+                email: {
+                  type: 'string'
+                },
+                id: {
+                  type: 'number'
+                },
+                name: {
+                  type: 'string'
+                },
+                location: {
+                  type: 'string'
+                },
+                html_url: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        }
       }
     }
   }, async function(request, reply) {
@@ -33,6 +68,7 @@ export default function(fastify: FastifyInstance, options, next) {
       })
       const user = res.body
       reply.send({
+        code: 0,
         data: {
           user
         }
