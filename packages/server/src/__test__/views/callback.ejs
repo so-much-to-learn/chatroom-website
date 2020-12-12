@@ -1,11 +1,29 @@
 <html>
   <body>
-    <button id="button">点击登录 Github</button>
+    <button id="button">点击获取用户信息</button>
+    <div id="content"></div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.min.js"></script>
     <script>
-      const button = document.querySelector("#button");
+      function parseURLParameters(search) {
+        const hashes = search.slice(search.indexOf('?') + 1).split('&');
+        return hashes.reduce((result, hash) => {
+          const [key, val] = hash.split('=');
+          result[key] = decodeURIComponent(val);
+          return result;
+        }, {});
+      }
+
+      const params = parseURLParameters(location.href);
+
+      const instance = axios.create({
+        baseURL: 'http://localhost:3000/api'
+      })
+      const button = document.querySelector("#button")
       button.onclick = function() {
-        const src = "localhost:3000/api/oauth/login?callback_url=localhost:3000/test/callback"
-        location.href = decodeURI(src)
+        instance.get(`/user/info?access_token=${params.access_token}`).then(res => {
+          const data = res.data
+          console.log('data', data)
+        })
       }
     </script>
   </body>

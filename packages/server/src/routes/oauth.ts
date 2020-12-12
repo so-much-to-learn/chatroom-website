@@ -23,9 +23,9 @@ export default function oauth(fastify: FastifyInstance, options, next) {
       }
     }
   }, async (request, reply) => {
-
     const { callback_url = '' } = request.query!
     const { hostname } = new URL(callback_url)
+    console.log('request.session', request.session)
     if (callback_url && allowHosts.indexOf(hostname) > -1) {
       request.session.callback_url = callback_url
     } else {
@@ -55,11 +55,13 @@ export default function oauth(fastify: FastifyInstance, options, next) {
       throw new Error('code invalid')
     }
     try {
+      console.time()
       const res = await got.post(
         `${oauthUrl}/access_token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`
       )
       .json()
-      const access_token = (res as any).data.access_token;
+      console.timeEnd()
+      const access_token = (res as any).access_token;
       reply.redirect(`${request.session.callback_url}?access_token=${access_token}`)
     } catch (err) {
       throw new Error(`get access_token failed, stack=${err.stack}|message=${err.message}`)

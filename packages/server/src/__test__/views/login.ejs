@@ -1,0 +1,12 @@
+<html>
+  <body>
+    <button id="button">点击登录 Github</button>
+    <script>
+      const button = document.querySelector("#button");
+      button.onclick = function() {
+        const src = "http://localhost:3000/api/oauth/login?callback_url=http://localhost:3000/test/callback"
+        location.href = decodeURI(src)
+      }
+    </script>
+  </body>
+</html>

@@ -6,10 +6,12 @@
     "access": "public"
   },
   "scripts": {
-    "start": "concurrently --kill-others \"npm run build -- --watch --outDir lib\" \"nodemon --inspect lib/index.js\" ",
+    "dev": "concurrently --kill-others \"npm run build -- --watch --outDir lib\" \"nodemon --inspect lib/index.js\" ",
+    "start": "cross-env NODE_ENV=dev nodemon ./src/index.ts --inspect --exec ts-node --watch server",
     "build": "tsc"
   },
   "dependencies": {
+    "ejs": "^3.1.5",
     "fastify": "^3.9.1",
     "fastify-cookie": "^4.2.0",
     "fastify-plugin": "^3.0.0",
@@ -27,6 +29,8 @@
   "devDependencies": {
     "@types/pino": "^6.3.4",
     "concurrently": "^5.3.0",
-    "patch-package": "^6.2.2"
+    "cross-env": "^7.0.3",
+    "patch-package": "^6.2.2",
+    "ts-node": "^9.1.1"
   }
 }

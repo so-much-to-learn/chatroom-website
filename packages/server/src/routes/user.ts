@@ -31,8 +31,12 @@ export default function(fastify: FastifyInstance, options, next) {
           Authorization: `token ${access_token}`
         }
       })
-      const user = (res.body as any).data
-      return user;
+      const user = res.body
+      reply.send({
+        data: {
+          user
+        }
+      })
     } catch (err) {
       throw new Error(`get user info failed, err.stack=${err.stack}|err.message=${err.message}`)
     }
