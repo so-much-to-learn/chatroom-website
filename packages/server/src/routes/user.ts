@@ -71,14 +71,24 @@ export default function(fastify: FastifyInstance, options, next) {
           Authorization: `token ${access_token}`
         }
       })
-      const user = res.body
-      reply.send({
-        code: 0,
-        data: {
-          user
-        }
-      })
+      const user = res.body;
+      const token = fastify.jwt.sign({ user })
+      reply
+        .setCookie(config.cookieKey, token, {
+          domain: config.host,
+          expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
+          httpOnly: true,
+          secure: config.env.isSecure,
+          path: '/'
+        })
+        .send({
+          code: 0,
+          data: {
+            user
+          }
+        })
     } catch (err) {
+      request.log.error(`[/user/info] error.message=${err.message}`)
       throw new Error(`get user info failed, err.stack=${err.stack}|err.message=${err.message}`)
     }
   })

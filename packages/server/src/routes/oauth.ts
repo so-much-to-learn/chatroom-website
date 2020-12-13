@@ -55,15 +55,14 @@ export default function oauth(fastify: FastifyInstance, options, next) {
       throw new Error('code invalid')
     }
     try {
-      console.time()
       const res = await got.post(
         `${oauthUrl}/access_token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`
       )
       .json()
-      console.timeEnd()
       const access_token = (res as any).access_token;
       reply.redirect(`${request.session.callback_url}?access_token=${access_token}`)
     } catch (err) {
+      request.log.error(`[/oauth/redirect] error.message=${err.message}`)
       throw new Error(`get access_token failed, stack=${err.stack}|message=${err.message}`)
     }
   })

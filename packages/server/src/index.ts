@@ -1,26 +1,41 @@
 import Fastify from 'fastify'
 import swagger from 'fastify-swagger'
+import session from 'fastify-session'
+import cookie from 'fastify-cookie'
+import jwt from 'fastify-jwt'
 import view from 'point-of-view'
 import path from 'path'
 
 import swaggerConfig from './utils/swagger'
-import Config from './config'
+import config from './config'
 import routes from './routes'
 import test from './__test__'
 
 const env = process.env.NODE_ENV
+const { env: { isDev, isSecure }, log, sessionSecret, jwtSecret } = config
 
 const fastify = Fastify({
   logger: {
     level: 'error',
     prettyPrint: true,
-    file: Config.log
+    file: log
   }
+})
+
+// 注册 session 和 cookie
+fastify.register(cookie)
+fastify.register(session, {
+  secret: sessionSecret,
+  cookie: { secure: isSecure }
+})
+
+fastify.register(jwt, {
+  secret: jwtSecret
 })
 
 console.log('NODE_ENV', env)
 
-if (env === 'dev') {
+if (isDev) {
   // ejs 做测试页面用
   fastify.register(view, {
     engine: {
@@ -43,6 +58,7 @@ fastify.ready((err) => {
   if (err) throw err
   fastify.swagger()
 })
+
 process.on('uncaughtException', err => {
   console.trace('uncaughtException happened', err);
   setTimeout(() => {
